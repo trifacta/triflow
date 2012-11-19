@@ -1,4 +1,4 @@
-require('./core/_package');
+require('../src/core/_package');
 
 require('util').puts(JSON.stringify({
   'private': true,
@@ -16,8 +16,10 @@ require('util').puts(JSON.stringify({
     'underscore': '1.3.3'
   },
   'devDependencies': {
+    'optimist': '0.3.5',
+    'snockets': '1.3.8',
     'uglify-js': '1.3.2',
-    'vows': '0.6.3'
+    'vows': '0.7.0'
   },
   'scripts': {'test': './node_modules/vows/bin/vows'}
 }, null, 2));

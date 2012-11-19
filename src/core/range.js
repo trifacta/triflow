@@ -1,3 +1,5 @@
+//= require _package.js
+
 function triflow_data_range_integerScale(x) {
   var k = 1;
   while (x * k % 1) {

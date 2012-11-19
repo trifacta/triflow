@@ -1,3 +1,5 @@
+//= require element.js
+
 triflow.element.fileSource = (function() {
   var source = function(name, filepath, attr) {
     attr = attr || {

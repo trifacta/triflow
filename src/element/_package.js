@@ -1,3 +1,5 @@
+//= require ../core/_package.js
+
 var triflow_dataflow_pause = -1;
 var triflow_dataflow_continue = 1;
 var triflow_dataflow_EOF = 0;

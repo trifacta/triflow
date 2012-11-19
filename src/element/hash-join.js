@@ -1,3 +1,5 @@
+//= require tuple-element.js
+
 triflow.element.hashJoin = (function() {
   var element = function(name, attr, outputs) {
     attr = attr || {};

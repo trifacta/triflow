@@ -1,6 +1,5 @@
 # triflow
-
-**triflow** is a dataflow implementation for node.
+**triflow** is a dataflow implementation in JavaScript.
 
 ### Compilation
 Clone the repository.
@@ -17,8 +16,7 @@ Compile source.
 
 `make`
 
-### Contributing
-
+### Contributing.
 Run test.
 
 `make test`

@@ -1,3 +1,5 @@
+//= require tuple-element.js
+
 triflow.element.buffer = (function() {
   var element = function(name, outputs, attr) {
     attr = attr || {};
@@ -8,7 +10,6 @@ triflow.element.buffer = (function() {
     this._writeIndex = 0;
     this._readIndex = 0;
     this._recentRead = true;
-
     this.__super__(name, outputs, attr);
   };
 

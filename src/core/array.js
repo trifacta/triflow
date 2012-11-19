@@ -1,3 +1,5 @@
+//= require _package.js
+
 var triflow_arraySubclass = [].__proto__ ?
     // Until ECMAScript supports array subclassing,
     // prototype injection works well.

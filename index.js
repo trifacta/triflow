@@ -8,9 +8,13 @@ globals.forEach(function(global) {
 });
 
 events = require('events');
-// util = require('util');
 _ = require('underscore');
-require("./triflow");
+if (process.env.NODE_COVERAGE === 'coverage') {
+  require("./triflow-coverage-node");  
+} else {
+  require("./triflow-node");  
+}
+
 module.exports = triflow;
 
 globals.forEach(function(global) {

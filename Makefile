@@ -3,62 +3,47 @@
 NODE_PATH ?= ./node_modules
 JS_COMPILER = $(NODE_PATH)/uglify-js/bin/uglifyjs
 JS_TESTER = $(NODE_PATH)/vows/bin/vows
+SOURCEDIR = ./src
+BIN_PATH = ./bin
+COMPILE_PATH = ./bin/compile
+COVERAGE_PATH ?= ./coverage
+
+SOURCES := $(shell find $(SOURCEDIR) -name '*.js')
 
 all: \
 	package.json \
 	triflow.js \
+	triflow-node.js \
 	triflow.min.js \
-
-
-short: \
-	package.json \
-	triflow.js \
-
 
 # Modify this rule to build your own custom release.
 
 .INTERMEDIATE triflow.js: \
-	src/start.js \
 	triflow.core.js \
-	triflow.wrangle.js \
-	src/end.js
 
 triflow.core.js: \
-	src/core/_package.js \
-	src/core/array.js \
-	src/core/entries.js \
-	src/core/functor.js \
-	src/core/keys.js \
-	src/core/max.js \
-	src/core/range.js \
-	src/core/values.js
+	$(SOURCES)
 
-triflow.wrangle.js: \
-  src/element/_package.js \
-  src/element/element.js \
-  src/element/file-source.js \
-  src/element/string-source.js \
-  src/element/tuple-element.js \
-  src/element/aggregate.js \
-  src/element/filter.js \
-  src/element/map.js \
-  src/element/hash-join.js \
-  src/element/buffer.js \
-
-test-all: short
+test: triflow-node.js
 	@$(JS_TESTER)
 
-test: short
-	@$(JS_TESTER) -r 'Test|test'
+test-cover:	triflow-coverage-node.js
+	@NODE_COVERAGE='coverage' $(JS_TESTER) --cover-html
+	@echo "code coverage run, see coverage.html"
+
+triflow-node.js:
+	@rm -f $@
+	@node $(COMPILE_PATH)/compile-node.js > $@
+	@chmod a-w $@
+
+triflow-coverage-node.js: coverage
+	@rm -f $@
+	@node $(COMPILE_PATH)/compile-node.js --coverage=$(COVERAGE_PATH) > $@
+	@chmod a-w $@
 
 triflow.js: Makefile
 	@rm -f $@
-	cat $(filter %.js,$^) > $@
-	@chmod a-w $@
-
-triflow%.js: Makefile
-	@rm -f $@
-	cat $(filter %.js,$^) > $@
+	@node $(COMPILE_PATH)/compile-js.js > $@
 	@chmod a-w $@
 
 triflow.min.js: triflow.js Makefile
@@ -66,19 +51,24 @@ triflow.min.js: triflow.js Makefile
 	$(JS_COMPILER) < $< > $@
 
 style: Makefile
-	gjslint --exclude_files=src/end.js,src/start.js --jslint_error=all --nojsdoc -r src/
-	gjslint --exclude_files=src/end.js,src/start.js --jslint_error=all --nojsdoc -r test/
+	gjslint --jslint_error=all --nojsdoc -r src/
+	gjslint --jslint_error=all --nojsdoc -r test/
 	jshint --config=.jshintrc src
 	jshint --config=.jshintrc test
+
+coverage: $(SOURCES)
+	@rm -r -f $(COVERAGE_PATH)
+	jscoverage src coverage
 
 install:
 	mkdir -p node_modules
 	npm install
 
-package.json: src/package.js
+package.json: $(BIN_PATH)/package.js
 	@rm -f $@
-	node src/package.js > $@
+	@node $(BIN_PATH)/package.js > $@
 	@chmod a-w $@
 
 clean:
 	rm -f triflow*.js package.json
+	rm -rf coverage coverage.html

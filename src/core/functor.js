@@ -1,3 +1,5 @@
+//= require _package.js
+
 function triflow_functor(v) {
   return typeof v === 'function' ? v : function() { return v; };
 }

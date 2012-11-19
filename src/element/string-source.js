@@ -1,3 +1,5 @@
+//= require element.js
+
 triflow.element.stringSource = (function() {
   var source = function(name, str, attr) {
     attr = attr || {

@@ -1,3 +1,5 @@
+//= require element.js
+
 triflow.element.tupleElement = (function() {
   var element = function(name, attr, outputs) {
     this.__super__(name, attr);

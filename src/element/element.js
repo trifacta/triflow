@@ -1,3 +1,5 @@
+//= require _package.js
+
 triflow.element.element = (function() {
   var element = function(name, attr) {
     attr = attr || {};

@@ -1,10 +1,13 @@
+//= require _package.js
+
 triflow.max = function(array, f) {
   var i = -1,
       n = array.length,
       a,
       b;
   if (arguments.length === 1) {
-    while (++i < n && ((a = array[i]) == null || a != a)) {
+    while (++i < n && ((a = array[i]) == null ||
+        a != a)) {
       a = undefined;
     }
     while (++i < n) {
