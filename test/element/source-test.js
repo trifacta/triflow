@@ -30,24 +30,28 @@ suite.addBatch({
           'source', 'abcdef', {bufferSize: 3});
       source.wire([consumer]);
       source.go();
+      assert(consumer.eosHandled());
 
       consumer = defaultConsumer(['abcd', 'ef']);
       source = new triflow.element.stringSource(
           'source', 'abcdef', {bufferSize: 4});
       source.wire([consumer]);
       source.go();
+      assert(consumer.eosHandled());
 
       consumer = defaultConsumer(['abcdef']);
       source = new triflow.element.stringSource(
           'source', 'abcdef', {bufferSize: 6});
       source.wire([consumer]);
       source.go();
+      assert(consumer.eosHandled());
 
       consumer = defaultConsumer(['abcdef']);
       source = new triflow.element.stringSource(
           'source', 'abcdef', {bufferSize: 7});
       source.wire([consumer]);
       source.go();
+      assert(consumer.eosHandled());
     }
   }
 });

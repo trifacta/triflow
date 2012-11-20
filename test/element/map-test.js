@@ -17,6 +17,7 @@ suite.addBatch({
       mapElement.consume(['a']);
       mapElement.consume(['b']);
       mapElement.consumeEOS();
+      assert(consumer.eosHandled());
     }
   }
 });

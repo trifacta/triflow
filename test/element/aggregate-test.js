@@ -25,6 +25,7 @@ suite.addBatch({
       aggElement.consume(['b']);
       aggElement.consume(['b']);
       aggElement.consumeEOS();
+      assert(consumer.eosHandled());
     },
     'Test multiple aggs/multiple groups': function() {
       var consumer = defaultConsumer([
@@ -58,6 +59,7 @@ suite.addBatch({
       aggElement.consume(['b', 'x', 2]);
       aggElement.consume(['b', 'x', 3]);
       aggElement.consumeEOS();
+      assert(consumer.eosHandled());
     }
   }
 });

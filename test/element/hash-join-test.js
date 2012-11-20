@@ -39,7 +39,7 @@ suite.addBatch({
       probeElement.consume([3, 'b']);
       probeElement.consume([4, 'd']);
       probeElement.consumeEOS();
-
+      assert(consumer.eosHandled());
     },
     'Test hashJoinElement with buffer': function() {
       var consumer = defaultConsumer(['bb', 'bb', 'bb', 'bb', 'aa']);
@@ -68,6 +68,7 @@ suite.addBatch({
       probeElement.consume('a');
       probeElement.consumeEOS();
       buildElement.consumeEOS();
+      assert(consumer.eosHandled());
     }
   }
 });

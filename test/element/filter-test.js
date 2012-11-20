@@ -18,6 +18,7 @@ suite.addBatch({
       filterElement.consume(['a']);
       filterElement.consume(['b']);
       filterElement.consumeEOS();
+      assert(consumer.eosHandled());
     },
     'Test filter with multiple arguments': function() {
       var consumer = defaultConsumer([['a', 1], ['c', 3]]);
@@ -32,6 +33,7 @@ suite.addBatch({
       filterElement.consume(['b', 'd', 2]);
       filterElement.consume(['c', 'e', 3]);
       filterElement.consumeEOS();
+      assert(consumer.eosHandled());
     }
 
   }

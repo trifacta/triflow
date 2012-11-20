@@ -18,6 +18,8 @@ suite.addBatch({
           'filesource', getExample('digits.txt'), {bufferSize: 4});
       fileSource.wire([bufferElement]);
       fileSource.go();
+      // XXX FIX ME
+      // assert(consumer.eosHandled());
     },
     'Test bufferElement with initial pause': function() {
       var consumer = defaultConsumer(['0123', '4567', '89']);
@@ -31,6 +33,8 @@ suite.addBatch({
           'filesource', getExample('digits.txt'), {bufferSize: 4});
       fileSource.wire([bufferElement]);
       fileSource.go();
+      // XXX FIX ME
+      // assert(consumer.eosHandled());
 
       bufferElement.continueConsumer(consumer);
     }
