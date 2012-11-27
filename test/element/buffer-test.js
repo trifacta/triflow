@@ -6,10 +6,9 @@ var vows = require('vows'),
 var suite = vows.describe('type');
 
 suite.addBatch({
-  'test buffer': {
-    'Test bufferElement with no pause': function() {
-      var consumer = defaultConsumer(['0123', '4567', '89']);
-
+  'Test bufferElement no pause': {
+    topic: function() {
+      var consumer = defaultConsumer(['0123', '4567', '89'], this.callback);
       var bufferElement = new triflow.element.buffer(
           'buffer', [], {bufferSize: 10});
       bufferElement.wire([consumer]);
@@ -18,11 +17,18 @@ suite.addBatch({
           'filesource', getExample('digits.txt'), {bufferSize: 4});
       fileSource.wire([bufferElement]);
       fileSource.go();
-      // XXX FIX ME
-      // assert(consumer.eosHandled());
+
     },
-    'Test bufferElement with initial pause': function() {
-      var consumer = defaultConsumer(['0123', '4567', '89']);
+    'end-of-stream': {
+      'eosHandled': function(consumer) {
+        assert(consumer.eosHandled());
+      }
+    }
+  }
+}).addBatch({
+  'Test bufferElement with initial pause': {
+    topic: function() {
+      var consumer = defaultConsumer(['0123', '4567', '89'], this.callback);
 
       var bufferElement = new triflow.element.buffer(
           'buffer2', [], {bufferSize: 10});
@@ -33,10 +39,12 @@ suite.addBatch({
           'filesource', getExample('digits.txt'), {bufferSize: 4});
       fileSource.wire([bufferElement]);
       fileSource.go();
-      // XXX FIX ME
-      // assert(consumer.eosHandled());
-
       bufferElement.continueConsumer(consumer);
+    },
+    'end-of-stream': {
+      'eosHandled': function(consumer) {
+        assert(consumer.eosHandled());
+      }
     }
   }
 });
