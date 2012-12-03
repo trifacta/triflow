@@ -8,10 +8,6 @@ triflow.element.tupleElement = (function() {
 
   var prototype = element.prototype;
 
-  prototype.outputs = function() {
-    return this._outputs;
-  };
-
   prototype.callFunction = function(func, data, accum) {
     var outputArity = func.outputArity;
     if (outputArity === undefined) {
@@ -30,9 +26,9 @@ triflow.element.tupleElement = (function() {
     }
     if (accum) {
       if (outputArity > 1) {
-        triflow.range(outputArity).forEach(function(r) {
+        for (r = 0; r < outputArity; r++) {
           accum.push(result[r]);
-        });
+        }
       } else {
         accum.push(result);
       }
@@ -46,8 +42,10 @@ triflow.element.tupleElement = (function() {
     for (var i = 0; i < this._outputs.length; ++i) {
       var output = this._outputs[i];
       if (typeof output === 'number') {
+        // this output is based on a column index
         outputs.push(data[output]);
       } else {
+        // this output is based on a function
         this.callFunction(output, data, outputs);
       }
     }

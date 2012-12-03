@@ -85,10 +85,10 @@ triflow.element.element = (function() {
   };
 
   prototype.clearBuffer = function() {
-    var data = _buffer[0];
+    var data = this._buffer[0];
 
-    _buffer = [];
-    this.produce(data);
+    this._buffer = [];
+    if (data) {this.produce(data);}
 
     if (this._seenEOS) {
       this.produceEOS();

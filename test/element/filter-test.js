@@ -34,8 +34,22 @@ suite.addBatch({
       filterElement.consume(['c', 'e', 3]);
       filterElement.consumeEOS();
       assert(consumer.eosHandled());
-    }
+    },
+    'Test filter with no input columns': function() {
+      var consumer = defaultConsumer([['a']]);
+      var filter = function(data) {
+        return (data && (data[0] === 'a'));
+      };
+      filter.inputColumns = undefined;
 
+      var filterElement = new triflow.element.filter(
+          'map', {rows: filter}, [0]);
+      filterElement.wire([consumer]);
+      filterElement.consume(['a']);
+      filterElement.consume(['b']);
+      filterElement.consumeEOS();
+      assert(consumer.eosHandled());
+    }
   }
 });
 

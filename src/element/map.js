@@ -7,9 +7,5 @@ triflow.element.map = (function() {
 
   var prototype = element.prototype;
 
-  prototype.consume = function(data, source) {
-    this.produce(data);
-  };
-
   return triflow_constructor(element, triflow.element.tupleElement);
 })();

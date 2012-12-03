@@ -21,6 +21,11 @@ suite.addBatch({
         };
       };
 
+      // cover copyObject
+      assert.deepEqual(triflow.copyObject(['fido', 'spot']), ['fido', 'spot']);
+      var obj = {pet: 'fido'};
+      assert.deepEqual(triflow.copyObject(obj), obj);
+
       var pet = function() {
         this.name = function() {
           return 'pet';
@@ -28,8 +33,6 @@ suite.addBatch({
         this.animal = new triflow.constructor(pet);
         this.loud = function() {return false;};
       };
-
-
 
       var animal = function() {
         this.name = function() {
@@ -52,29 +55,25 @@ suite.addBatch({
       assert.equal(new dog().name(), 'dog');
       assert.notEqual(new dog().loud, undefined);
     },
-    'Test max_index': function() {
-      assert.equal(triflow.max([0, 1, 2]), 2);
-      assert.equal(triflow.max_index([0, 1, 2]), 2);
+    'Test logging': function() {
+      // redirect stdout log msgs to a string variable to hide test log msgs
+      var old_write = process.stdout.write;
+      var log_buffer = '';
+      process.stdout.write = function(string, encoding, fd) {
+        log_buffer += string;
+      };
 
-      assert.equal(triflow.max([2, 1, 2]), 2);
-      assert.equal(triflow.max_index([2, 1, 2]), 0);
+      triflow.log.trace('testing: ignore this message');
+      triflow.log.fatal('testing: ignore this message (non-fatal)');
+      triflow.log('nonsense', 'bad level');
+      triflow.log(100, 'level too high');
 
-      assert.equal(triflow.max([0, 2, 1]), 2);
-      assert.equal(triflow.max_index([0, 2, 1]), 1);
+      // reinstate stdout
+      process.stdout.write = old_write;
 
-      assert.equal(triflow.max([2, 1, 0]), 2);
-      assert.equal(triflow.max_index([2, 1, 0]), 0);
-    },
-    'Test range': function() {
-      assert.deepEqual(triflow.range(3), [0, 1, 2]);
-    },
-    'Test array': function() {
-      assert.deepEqual(triflow.array(3), [0, 0, 0]);
-      assert.deepEqual(triflow.array(3, [1]), [[1], [1], [1]]);
-    },
-    'Test functor': function() {
-      assert.equal(triflow.functor(5)(), 5);
-      assert.equal(triflow.functor(function() { return 5; })(), 5);
+      // test for log msgs
+      var logpatt = /TRACE.*\nFATAL.*/m;
+      assert(logpatt.test(log_buffer));
     }
   }
 });

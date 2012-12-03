@@ -18,6 +18,20 @@ suite.addBatch({
       mapElement.consume(['b']);
       mapElement.consumeEOS();
       assert(consumer.eosHandled());
+    },
+    'Test binary mapper': function() {
+      var consumer = defaultConsumer([['A', 'B'], ['C', 'D']]);
+      var mapper = function(data) {
+        return [data[0].toUpperCase(), data[1].toUpperCase()];
+      };
+      mapper.inputColumns = undefined;
+      mapper.outputArity = 2;
+      var mapElement = new triflow.element.map('map', {}, [mapper]);
+      mapElement.wire([consumer]);
+      mapElement.consume(['a', 'b']);
+      mapElement.consume(['c', 'd']);
+      mapElement.consumeEOS();
+      assert(consumer.eosHandled());
     }
   }
 });
