@@ -8,6 +8,10 @@ triflow.element.tupleElement = (function() {
 
   var prototype = element.prototype;
 
+  prototype.outputs = function() {
+    return this._outputs;
+  };
+
   prototype.callFunction = function(func, data, accum) {
     var outputArity = func.outputArity;
     if (outputArity === undefined) {
