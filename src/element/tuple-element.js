@@ -29,7 +29,9 @@ triflow.element.tupleElement = (function() {
       result = func.call(null, data);
     }
     if (accum) {
-      if (outputArity > 1) {
+      // TODO: Need better method to distinguish
+      // arrays that should be unpacked.
+      if (typeof result === 'object') {
         for (r = 0; r < outputArity; r++) {
           accum.push(result[r]);
         }
