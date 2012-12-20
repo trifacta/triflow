@@ -1,8 +1,8 @@
 # See the README for installation instructions.
 
-NODE_PATH ?= ./node_modules
-JS_COMPILER = $(NODE_PATH)/uglify-js/bin/uglifyjs
-JS_TESTER = $(NODE_PATH)/vows/bin/vows
+NODE_MODULES_PATH ?= ./node_modules
+JS_COMPILER = $(NODE_MODULES_PATH)/uglify-js/bin/uglifyjs
+JS_TESTER = $(NODE_MODULES_PATH)/vows/bin/vows
 SOURCEDIR = ./src
 BIN_PATH = ./bin
 COMPILE_PATH = ./bin/compile
