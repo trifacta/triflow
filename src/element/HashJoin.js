@@ -1,6 +1,6 @@
-//= require tuple-element.js
+//= require TupleElement.js
 
-triflow.element.hashJoin = (function() {
+triflow.element.HashJoin = (function() {
   var element = function(name, attr, outputs) {
     attr = attr || {};
     _.defaults(attr, {
@@ -72,5 +72,5 @@ triflow.element.hashJoin = (function() {
     }
   };
 
-  return triflow_constructor(element, triflow.element.tupleElement);
+  return triflow_constructor(element, triflow.element.TupleElement);
 })();

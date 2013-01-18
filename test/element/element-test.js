@@ -9,7 +9,7 @@ suite.addBatch({
   'code coverage for element': {
     'Test accessors': function() {
       var consumer = defaultConsumer([['a', 'b']]);
-      var simpleElement = new triflow.element.element(
+      var simpleElement = new triflow.element.Element(
           'passthru', {'c1': 0, 'c2': 1});
       simpleElement.wire(consumer);
       assert.deepEqual(simpleElement.consumers(), [consumer]);

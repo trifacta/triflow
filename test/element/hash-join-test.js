@@ -15,17 +15,17 @@ suite.addBatch({
         ['a', 1], ['b', 2], ['b', 2], ['b', 3], ['b', 3]
       ]);
 
-      var joinElement = new triflow.element.hashJoin('join', {
+      var joinElement = new triflow.element.HashJoin('join', {
         buildJoinColumn: buildJoinColumn,
         probeJoinColumn: probeJoinColumn
       }, [0, 1]);
       joinElement.wire([consumer]);
 
-      var buildElement = new triflow.element.buffer(
+      var buildElement = new triflow.element.Buffer(
           'build', {bufferSize: 10});
       buildElement.wire([joinElement]);
 
-      var probeElement = new triflow.element.buffer(
+      var probeElement = new triflow.element.Buffer(
           'probe', {bufferSize: 10});
       probeElement.wire([joinElement]);
 
@@ -46,17 +46,17 @@ suite.addBatch({
     'Test hashJoinElement with buffer': function() {
       var consumer = defaultConsumer(['bb', 'bb', 'bb', 'bb', 'aa']);
 
-      var joinElement = new triflow.element.hashJoin('join', {
+      var joinElement = new triflow.element.HashJoin('join', {
         buildJoinColumn: 0,
         probeJoinColumn: 0
       }, []);
       joinElement.wire([consumer]);
 
-      var buildElement = new triflow.element.buffer(
+      var buildElement = new triflow.element.Buffer(
           'build', {bufferSize: 10});
       buildElement.wire([joinElement]);
 
-      var probeElement = new triflow.element.buffer(
+      var probeElement = new triflow.element.Buffer(
           'probe', {bufferSize: 10});
       probeElement.wire([joinElement]);
 

@@ -12,7 +12,7 @@ suite.addBatch({
       var mapper = function(data) { return data[0].toUpperCase(); };
       mapper.inputColumns = [0];
       mapper.outputArity = 1;
-      var mapElement = new triflow.element.map('map', {}, [mapper]);
+      var mapElement = new triflow.element.Map('map', {}, [mapper]);
       mapElement.wire([consumer]);
       mapElement.consume(['a']);
       mapElement.consume(['b']);
@@ -26,7 +26,7 @@ suite.addBatch({
       };
       mapper.inputColumns = undefined;
       mapper.outputArity = 2;
-      var mapElement = new triflow.element.map('map', {}, [mapper]);
+      var mapElement = new triflow.element.Map('map', {}, [mapper]);
       mapElement.wire([consumer]);
       mapElement.consume(['a', 'b']);
       mapElement.consume(['c', 'd']);

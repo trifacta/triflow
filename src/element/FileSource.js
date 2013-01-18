@@ -1,6 +1,6 @@
-//= require element.js
+//= require Element.js
 
-triflow.element.fileSource = (function() {
+triflow.element.FileSource = (function() {
   var source = function(name, filepath, attr) {
     attr = attr || {
       bufferSize: 1000
@@ -42,5 +42,5 @@ triflow.element.fileSource = (function() {
     fs.open(this._filepath, 'r', onRead);
   };
 
-  return triflow_constructor(source, triflow.element.element);
+  return triflow_constructor(source, triflow.element.Element);
 })();

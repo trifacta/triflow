@@ -1,6 +1,6 @@
-//= require tuple-element.js
+//= require TupleElement.js
 
-triflow.element.buffer = (function() {
+triflow.element.Buffer = (function() {
   var element = function(name, outputs, attr) {
     attr = attr || {};
 
@@ -73,6 +73,6 @@ triflow.element.buffer = (function() {
     }
   };
 
-  return triflow_constructor(element, triflow.element.tupleElement);
+  return triflow_constructor(element, triflow.element.TupleElement);
 })();
 

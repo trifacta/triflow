@@ -1,6 +1,6 @@
-//= require element.js
+//= require Element.js
 
-triflow.element.stringSource = (function() {
+triflow.element.StringSource = (function() {
   var source = function(name, str, attr) {
     attr = attr || {
       bufferSize: 1
@@ -25,5 +25,5 @@ triflow.element.stringSource = (function() {
     consumer.consumeEOS(this);
   };
 
-  return triflow_constructor(source, triflow.element.element);
+  return triflow_constructor(source, triflow.element.Element);
 })();

@@ -1,8 +1,8 @@
-//= require tuple-element.js
+//= require TupleElement.js
 
 // TODO: Multiple aggregates should reuse computation.
 // For instance, average could reuse sum or count.
-triflow.element.aggregate = (function() {
+triflow.element.Aggregate = (function() {
   var element = function(name, attr) {
     attr = attr || {};
     _.defaults(attr, {
@@ -75,5 +75,5 @@ triflow.element.aggregate = (function() {
     // Update aggs.
   };
 
-  return triflow_constructor(element, triflow.element.tupleElement);
+  return triflow_constructor(element, triflow.element.TupleElement);
 })();

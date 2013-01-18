@@ -1,6 +1,6 @@
-//= require tuple-element.js
+//= require TupleElement.js
 
-triflow.element.filter = (function() {
+triflow.element.Filter = (function() {
   var element = function(name, attr, outputs) {
     attr = attr || {};
     _.defaults(attr, {
@@ -18,5 +18,5 @@ triflow.element.filter = (function() {
     }
   };
 
-  return triflow_constructor(element, triflow.element.tupleElement);
+  return triflow_constructor(element, triflow.element.TupleElement);
 })();

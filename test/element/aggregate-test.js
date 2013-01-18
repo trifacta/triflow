@@ -18,7 +18,7 @@ suite.addBatch({
           close: function() { return count; }
         };
       };
-      var aggElement = new triflow.element.aggregate(
+      var aggElement = new triflow.element.Aggregate(
           'map', {groups: [group], aggs: [agg]});
       aggElement.wire([consumer]);
       aggElement.consume(['a']);
@@ -49,7 +49,7 @@ suite.addBatch({
           close: function() { return sum; }
         };
       };
-      var aggElement = new triflow.element.aggregate(
+      var aggElement = new triflow.element.Aggregate(
           'map', {groups: [group, group2], aggs: [agg, agg2]});
       aggElement.wire([consumer]);
       aggElement.consume(['a', 'x', 1]);

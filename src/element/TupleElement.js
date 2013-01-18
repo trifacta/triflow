@@ -1,6 +1,6 @@
-//= require element.js
+//= require Element.js
 
-triflow.element.tupleElement = (function() {
+triflow.element.TupleElement = (function() {
   var element = function(name, attr, outputs) {
     this.__super__(name, attr);
     this._outputs = outputs;
@@ -73,5 +73,5 @@ triflow.element.tupleElement = (function() {
     }
   };
 
-  return triflow_constructor(element, triflow.element.element);
+  return triflow_constructor(element, triflow.element.Element);
 })();

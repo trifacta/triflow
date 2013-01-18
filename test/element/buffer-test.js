@@ -9,11 +9,11 @@ suite.addBatch({
   'Test bufferElement no pause': {
     topic: function() {
       var consumer = defaultConsumer(['0123', '4567', '89'], this.callback);
-      var bufferElement = new triflow.element.buffer(
+      var bufferElement = new triflow.element.Buffer(
           'buffer', [], {bufferSize: 3});
       bufferElement.wire([consumer]);
 
-      var fileSource = new triflow.element.fileSource(
+      var fileSource = new triflow.element.FileSource(
           'filesource', getExample('digits.txt'), {bufferSize: 4});
       fileSource.wire([bufferElement]);
       fileSource.go();
@@ -30,13 +30,13 @@ suite.addBatch({
     topic: function() {
       var consumer = defaultConsumer(['0123', '4567', '89'], this.callback);
 
-      var bufferElement = new triflow.element.buffer(
+      var bufferElement = new triflow.element.Buffer(
           'buffer2', [], {bufferSize: 10});
       bufferElement.wire([consumer]);
       bufferElement.pauseConsumer(consumer);
       assert.deepEqual(bufferElement.pausedConsumers(), {'consumer': 1});
 
-      var fileSource = new triflow.element.fileSource(
+      var fileSource = new triflow.element.FileSource(
           'filesource', getExample('digits.txt'), {bufferSize: 4});
       fileSource.wire([bufferElement]);
       fileSource.go();
@@ -52,7 +52,7 @@ suite.addBatch({
   'Test bufferElement over/underflow checks': {
     'over/underflow': function() {
       var consumer = defaultConsumer(['0123', '4567', '89'], this.callback);
-      var bufferElement = new triflow.element.buffer(
+      var bufferElement = new triflow.element.Buffer(
           'buffer3', [], {bufferSize: 2});
       bufferElement.wire([consumer]);
       // underflow buffer
