@@ -11,7 +11,6 @@ COVERAGE_PATH ?= ./coverage
 SOURCES := $(shell find $(SOURCEDIR) -name '*.js')
 
 all: \
-	package.json \
 	triflow.js \
 	triflow-node.js \
 	triflow.min.js \
@@ -64,11 +63,6 @@ install:
 	mkdir -p node_modules
 	npm install
 
-package.json: $(BIN_PATH)/package.js
-	@rm -f $@
-	@node $(BIN_PATH)/package.js > $@
-	@chmod a-w $@
-
 clean:
-	rm -f triflow*.js package.json
+	rm -f triflow*.js
 	rm -rf coverage coverage.html
