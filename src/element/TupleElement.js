@@ -31,7 +31,7 @@ triflow.element.TupleElement = (function() {
     if (accum) {
       // TODO: Need better method to distinguish
       // arrays that should be unpacked.
-      if (typeof result === 'object') {
+      if (typeof result === 'object' && result !== null) {
         for (r = 0; r < outputArity; r++) {
           accum.push(result[r]);
         }
