@@ -48,7 +48,7 @@ triflow.element.Aggregate = (function() {
       init.push(agg);
     }
     return init;
-  };
+  }
 
   prototype.consume = function(data, source) {
     // Compute group key.
@@ -56,7 +56,7 @@ triflow.element.Aggregate = (function() {
         groupLookup = this._groupLookup, key, groupAggs;
     var aggs = this._aggs, lastGroup = groups.length - 1;
     if (groupLookup === null) {
-       this._groupLookup = groupLookup = initializeAggs(this._aggs);
+      this._groupLookup = groupLookup = initializeAggs(this._aggs);
     }
     for (i = 0; i < groups.length; ++i) {
       key = groups[i](data);
@@ -67,7 +67,7 @@ triflow.element.Aggregate = (function() {
         if (i === lastGroup) {
           // If we are in the last group, then we store and
           // initialize all the aggregates for that group.
-          init = initializeAggs(this._aggs)
+          init = initializeAggs(this._aggs);
         } else {
           // Otherwise, we add another level of nesting for
           // multi-group keys.
