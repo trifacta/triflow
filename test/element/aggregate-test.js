@@ -7,6 +7,25 @@ var suite = vows.describe('type');
 
 suite.addBatch({
   'test aggregate': {
+    'Test single agg': function() {
+      var consumer = defaultConsumer([[3]]);
+      var agg = function() {
+        var count = 0;
+        return {
+          open: function() {},
+          next: function(data) { ++count; },
+          close: function() { return count; }
+        };
+      };
+      var aggElement = new triflow.element.Aggregate(
+          'map', {groups: [], aggs: [agg]});
+      aggElement.wire([consumer]);
+      aggElement.consume(['a']);
+      aggElement.consume(['b']);
+      aggElement.consume(['b']);
+      aggElement.consumeEOS();
+      assert(consumer.eosHandled());
+    },
     'Test count with single group': function() {
       var consumer = defaultConsumer([['a', 1], ['b', 2]]);
       var group = function(data) { return data[0]; };

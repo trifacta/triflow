@@ -12,7 +12,7 @@ triflow.element.Aggregate = (function() {
     this.__super__(name, attr, []);
     this._groups = attr.groups;
     this._aggs = attr.aggs;
-    this._groupLookup = {};
+    this._groupLookup = this._groups.length ? {} : null;
   };
 
   var prototype = element.prototype;
@@ -40,11 +40,24 @@ triflow.element.Aggregate = (function() {
     this.produceEOS();
   };
 
+  function initializeAggs(aggs) {
+    var init = [];
+    for (var j = aggs.length - 1; j >= 0; j--) {
+      var agg = aggs[j]();
+      agg.open();
+      init.push(agg);
+    }
+    return init;
+  };
+
   prototype.consume = function(data, source) {
     // Compute group key.
     var i, groups = this._groups,
         groupLookup = this._groupLookup, key, groupAggs;
     var aggs = this._aggs, lastGroup = groups.length - 1;
+    if (groupLookup === null) {
+       this._groupLookup = groupLookup = initializeAggs(this._aggs);
+    }
     for (i = 0; i < groups.length; ++i) {
       key = groups[i](data);
       groupAggs = groupLookup[key];
@@ -54,12 +67,7 @@ triflow.element.Aggregate = (function() {
         if (i === lastGroup) {
           // If we are in the last group, then we store and
           // initialize all the aggregates for that group.
-          init = [];
-          for (var j = aggs.length - 1; j >= 0; j--) {
-            var agg = aggs[j]();
-            agg.open();
-            init.push(agg);
-          }
+          init = initializeAggs(this._aggs)
         } else {
           // Otherwise, we add another level of nesting for
           // multi-group keys.
@@ -71,8 +79,7 @@ triflow.element.Aggregate = (function() {
     }
     for (i = aggs.length - 1; i >= 0; i--) {
       groupLookup[i].next(data);
-    }    // Else initialize aggs.
-    // Update aggs.
+    }
   };
 
   return triflow_constructor(element, triflow.element.TupleElement);
