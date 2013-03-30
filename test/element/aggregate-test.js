@@ -26,6 +26,18 @@ suite.addBatch({
       aggElement.consumeEOS();
       assert(consumer.eosHandled());
     },
+    'Test single group': function() {
+      var consumer = defaultConsumer([['a'], ['b']]);
+      var group = function(data) { return data[0]; };
+      var aggElement = new triflow.element.Aggregate(
+          'map', {groups: [group], aggs: []});
+      aggElement.wire([consumer]);
+      aggElement.consume(['a']);
+      aggElement.consume(['b']);
+      aggElement.consume(['b']);
+      aggElement.consumeEOS();
+      assert(consumer.eosHandled());
+    },
     'Test count with single group': function() {
       var consumer = defaultConsumer([['a', 1], ['b', 2]]);
       var group = function(data) { return data[0]; };

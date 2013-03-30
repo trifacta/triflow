@@ -114,6 +114,8 @@ triflow.element.Element = (function() {
     }, this);
   };
 
+  prototype.addConsumer = prototype.wire;
+
   return triflow_constructor(element);
 })();
 
