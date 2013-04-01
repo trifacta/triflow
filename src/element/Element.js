@@ -1,121 +1,119 @@
-//= require _package.js
+var _ = require('underscore');
 
-triflow.element.Element = (function() {
-  var element = function(name, attr) {
-    attr = attr || {};
+var Element = module.exports = function(name, attr) {
+  attr = attr || {};
 
-    this._name = name;
-    this._attr = attr;
-    this._producers = [];
-    this._consumers = [];
-    this._seenEOS = false;
-    this._pausedConsumers = {};
-    this._buffer = [];
-  };
+  this._name = name;
+  this._attr = attr;
+  this._producers = [];
+  this._consumers = [];
+  this._seenEOS = false;
+  this._pausedConsumers = {};
+  this._buffer = [];
+};
 
-  var prototype = element.prototype;
+var prototype = Element.prototype;
 
-  prototype.name = function(consumer) {
-    return this._name;
-  };
+prototype.name = function(consumer) {
+  return this._name;
+};
 
-  prototype.attr = function(key) {
-    return this._attr[key];
-  };
+prototype.attr = function(key) {
+  return this._attr[key];
+};
 
-  prototype.pausedConsumers = function() {
-    return this._pausedConsumers;
-  };
+prototype.pausedConsumers = function() {
+  return this._pausedConsumers;
+};
 
-  prototype.buffer = function() {
-    return this._buffer;
-  };
+prototype.buffer = function() {
+  return this._buffer;
+};
 
-  prototype.consumeEOS = function(source) {
-    this._seenEOS = true;
-    if (this.consumersReady()) {
-      this.produceEOS();
-    }
-  };
+prototype.consumeEOS = function(source) {
+  this._seenEOS = true;
+  if (this.consumersReady()) {
+    this.produceEOS();
+  }
+};
 
-  prototype.produceEOS = function() {
-    if (this.consumersReady() && this.bufferEmpty()) {
-      var consumers = this._consumers, i;
-      for (i = 0; i < consumers.length; ++i) {
-        consumers[i].consumeEOS(this);
-      }
-    }
-  };
-
-  prototype.produce = function(data) {
+prototype.produceEOS = function() {
+  if (this.consumersReady() && this.bufferEmpty()) {
     var consumers = this._consumers, i;
-
     for (i = 0; i < consumers.length; ++i) {
-      consumers[i].consume(data, this);
+      consumers[i].consumeEOS(this);
     }
-  };
+  }
+};
 
-  prototype.consume = function(data, source) {
-    this.produce(data);
-  };
+prototype.produce = function(data) {
+  var consumers = this._consumers, i;
 
-  // Logic for pausing/resuming.
-  prototype.pauseConsumer = function(consumer) {
-    this._pausedConsumers[consumer.name()] = 1;
-  };
+  for (i = 0; i < consumers.length; ++i) {
+    consumers[i].consume(data, this);
+  }
+};
 
-  prototype.consumersReady = function() {
-    for (var i in this._pausedConsumers) { return false;}
-    return true;
-  };
+prototype.consume = function(data, source) {
+  this.produce(data);
+};
 
-  prototype.bufferEmpty = function() {
-    return (this._buffer.length === 0);
-  };
+// Logic for pausing/resuming.
+prototype.pauseConsumer = function(consumer) {
+  this._pausedConsumers[consumer.name()] = 1;
+};
 
-  prototype.bufferFull = function() {
-    return (this._buffer.length);
-  };
+prototype.consumersReady = function() {
+  for (var i in this._pausedConsumers) { return false;}
+  return true;
+};
 
-  prototype.continueConsumer = function(consumer) {
-    delete this._pausedConsumers[consumer.name()];
-    if (this.consumersReady()) {
-      this.clearBuffer();
-    }
-  };
+prototype.bufferEmpty = function() {
+  return (this._buffer.length === 0);
+};
 
-  prototype.clearBuffer = function() {
-    var data = this._buffer[0];
+prototype.bufferFull = function() {
+  return (this._buffer.length);
+};
 
-    this._buffer = [];
-    if (data) {this.produce(data);}
+prototype.continueConsumer = function(consumer) {
+  delete this._pausedConsumers[consumer.name()];
+  if (this.consumersReady()) {
+    this.clearBuffer();
+  }
+};
 
-    if (this._seenEOS) {
-      this.produceEOS();
-    }
-  };
-  // End logic for pausing/resuming.
+prototype.clearBuffer = function() {
+  var data = this._buffer[0];
 
-  prototype.producers = function() {
-    return this._producers;
-  };
+  this._buffer = [];
+  if (data) {this.produce(data);}
 
-  prototype.consumers = function() {
-    return this._consumers;
-  };
+  if (this._seenEOS) {
+    this.produceEOS();
+  }
+};
+// End logic for pausing/resuming.
 
-  prototype.wire = function(elements) {
-    if (!_.isArray(elements)) {
-      elements = [elements];
-    }
-    this._consumers = elements.slice();
-    elements.forEach(function(e) {
-      e.producers().push(this);
-    }, this);
-  };
+prototype.producers = function() {
+  return this._producers;
+};
 
-  prototype.addConsumer = prototype.wire;
+prototype.consumers = function() {
+  return this._consumers;
+};
 
-  return triflow_constructor(element);
-})();
+prototype.wire = function(elements) {
+  if (!_.isArray(elements)) {
+    elements = [elements];
+  }
+  this._consumers = elements.slice();
+  elements.forEach(function(e) {
+    e.producers().push(this);
+  }, this);
+};
+
+prototype.addConsumer = prototype.wire;
+
+
 

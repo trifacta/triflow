@@ -23,22 +23,12 @@ all: \
 triflow.core.js: \
 	$(SOURCES)
 
-test: triflow-node.js
+test: Makefile
 	@$(JS_TESTER)
 
-test-cover:	triflow-coverage-node.js
+test-cover:	coverage
 	@NODE_COVERAGE='coverage' $(JS_TESTER) --cover-html
 	@echo "code coverage run, see coverage.html"
-
-triflow-node.js:
-	@rm -f $@
-	@node $(COMPILE_PATH)/compile-node.js > $@
-	@chmod a-w $@
-
-triflow-coverage-node.js: coverage
-	@rm -f $@
-	@node $(COMPILE_PATH)/compile-node.js --coverage=$(COVERAGE_PATH) > $@
-	@chmod a-w $@
 
 triflow.js: Makefile
 	@rm -f $@

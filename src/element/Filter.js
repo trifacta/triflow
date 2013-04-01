@@ -1,22 +1,23 @@
-//= require TupleElement.js
+var _ = require('underscore'),
+    TupleElement = require('./TupleElement'),
+    extend = require('../core/extend');
 
-triflow.element.Filter = (function() {
-  var element = function(name, attr, outputs) {
-    attr = attr || {};
-    _.defaults(attr, {
-      rows: null
-    });
-    this.__super__(name, attr, outputs);
-    this._predicate = attr.rows;
-  };
+var Filter = module.exports = function(name, attr, outputs) {
+  attr = attr || {};
+  _.defaults(attr, {
+    rows: null
+  });
+  this.__super__(name, attr, outputs);
+  this._predicate = attr.rows;
+};
 
-  var prototype = element.prototype;
+var prototype = Filter.prototype;
 
-  prototype.consume = function(data, source) {
-    if (this.callFunction(this._predicate, data)) {
-      this.produce(data);
-    }
-  };
+prototype.consume = function(data, source) {
+  if (this.callFunction(this._predicate, data)) {
+    this.produce(data);
+  }
+};
 
-  return triflow_constructor(element, triflow.element.TupleElement);
-})();
+extend(Filter, TupleElement);
+

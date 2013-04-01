@@ -9,13 +9,9 @@ globals.forEach(function(global) {
 
 events = require('events');
 _ = require('underscore');
-if (process.env.NODE_COVERAGE === 'coverage') {
-  require("./triflow-coverage-node");  
-} else {
-  require("./triflow-node");  
-}
 
-module.exports = triflow;
+module.exports = triflow = process.env.NODE_COVERAGE ?
+  require("./coverage") : require("./src");
 
 globals.forEach(function(global) {
   if (global in globalValues) self[global] = globalValues[global];

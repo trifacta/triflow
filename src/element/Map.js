@@ -1,11 +1,9 @@
-//= require TupleElement.js
+var TupleElement = require('./TupleElement'),
+    extend = require('../core/extend');
 
-triflow.element.Map = (function() {
-  var element = function(name, attr, outputs) {
-    this.__super__(name, attr, outputs);
-  };
+var MapElement = module.exports = function(name, attr, outputs) {
+  this.__super__(name, attr, outputs);
+};
 
-  var prototype = element.prototype;
+extend(MapElement, TupleElement);
 
-  return triflow_constructor(element, triflow.element.TupleElement);
-})();
