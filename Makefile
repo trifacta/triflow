@@ -11,9 +11,6 @@ COVERAGE_PATH ?= ./coverage
 SOURCES := $(shell find $(SOURCEDIR) -name '*.js')
 
 all: \
-	triflow.js \
-	triflow-node.js \
-	triflow.min.js \
 
 # Modify this rule to build your own custom release.
 
@@ -29,15 +26,6 @@ test: Makefile
 test-cover:	coverage
 	@NODE_COVERAGE='coverage' $(JS_TESTER) --cover-html
 	@echo "code coverage run, see coverage.html"
-
-triflow.js: Makefile
-	@rm -f $@
-	@node $(COMPILE_PATH)/compile-js.js > $@
-	@chmod a-w $@
-
-triflow.min.js: triflow.js Makefile
-	@rm -f $@
-	$(JS_COMPILER) < $< > $@
 
 style: Makefile
 	gjslint --jslint_error=all --nojsdoc -r src/
