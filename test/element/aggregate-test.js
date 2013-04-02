@@ -18,7 +18,7 @@ suite.addBatch({
         };
       };
       var aggElement = new triflow.element.Aggregate(
-          'map', {groups: [], aggs: [agg]});
+          {groups: [], aggs: [agg]});
       aggElement.wire([consumer]);
       aggElement.consume(['a']);
       aggElement.consume(['b']);
@@ -30,7 +30,7 @@ suite.addBatch({
       var consumer = defaultConsumer([['a'], ['b']]);
       var group = function(data) { return data[0]; };
       var aggElement = new triflow.element.Aggregate(
-          'map', {groups: [group], aggs: []});
+          {groups: [group], aggs: []});
       aggElement.wire([consumer]);
       aggElement.consume(['a']);
       aggElement.consume(['b']);
@@ -50,7 +50,7 @@ suite.addBatch({
         };
       };
       var aggElement = new triflow.element.Aggregate(
-          'map', {groups: [group], aggs: [agg]});
+          {groups: [group], aggs: [agg]});
       aggElement.wire([consumer]);
       aggElement.consume(['a']);
       aggElement.consume(['b']);
@@ -81,7 +81,7 @@ suite.addBatch({
         };
       };
       var aggElement = new triflow.element.Aggregate(
-          'map', {groups: [group, group2], aggs: [agg, agg2]});
+          {groups: [group, group2], aggs: [agg, agg2]});
       aggElement.wire([consumer]);
       aggElement.consume(['a', 'x', 1]);
       aggElement.consume(['a', 'y', 1]);

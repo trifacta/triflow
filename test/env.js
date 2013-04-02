@@ -16,6 +16,7 @@ defaultConsumer = function(expectedResult, cb) {
     consume: function(str) { data.push(str); },
     name: function() { return 'consumer'; },
     eosHandled: function() { return eosSeen; },
+    elementId: function() { return 'elementId'; },
     data: function() {return data;},
     consumeEOS: function() {
       eosSeen = true;

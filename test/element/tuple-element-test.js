@@ -10,7 +10,7 @@ suite.addBatch({
     'Test accessors': function() {
       var consumer = defaultConsumer([['a', 'b']]);
       var simpleElement = new triflow.element.TupleElement(
-          'passthru', {'c1': 0, 'c2': 1}, [0, 1]);
+          {'c1': 0, 'c2': 1}, [0, 1]);
       assert.deepEqual(simpleElement.outputs(), [0, 1]);
     }
   }

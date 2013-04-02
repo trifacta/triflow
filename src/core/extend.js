@@ -1,6 +1,6 @@
 var _ = require('underscore');
 
-var extend = module.exports = function(func, parent) {
+var extend = function(func, parent) {
   if (parent) {
     var p = parent;
     _.defaults(func.prototype, p.prototype);
@@ -15,3 +15,5 @@ var extend = module.exports = function(func, parent) {
   }
   return func;
 };
+
+module.exports = extend;

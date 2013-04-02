@@ -1,48 +1,37 @@
 var _ = require('underscore');
 
-var Element = module.exports = function(name, attr) {
+var Element = module.exports = function(attr) {
   attr = attr || {};
-
-  this._name = name;
   this._attr = attr;
   this._producers = [];
   this._consumers = [];
   this._seenEOS = false;
-  this._pausedConsumers = {};
-  this._buffer = [];
+  this._producedEOS = false;
+  this._elementId = attr.elementId;
 };
 
 var prototype = Element.prototype;
 
-prototype.name = function(consumer) {
-  return this._name;
+prototype.elementId = function() {
+  return this._elementId;
 };
 
 prototype.attr = function(key) {
   return this._attr[key];
 };
 
-prototype.pausedConsumers = function() {
-  return this._pausedConsumers;
-};
-
-prototype.buffer = function() {
-  return this._buffer;
-};
-
 prototype.consumeEOS = function(source) {
   this._seenEOS = true;
-  if (this.consumersReady()) {
-    this.produceEOS();
-  }
+  this.produceEOS();
 };
 
 prototype.produceEOS = function() {
-  if (this.consumersReady() && this.bufferEmpty()) {
+  if (!this._producedEOS) {
     var consumers = this._consumers, i;
     for (i = 0; i < consumers.length; ++i) {
       consumers[i].consumeEOS(this);
     }
+    this._producedEOS = true;
   }
 };
 
@@ -58,43 +47,6 @@ prototype.consume = function(data, source) {
   this.produce(data);
 };
 
-// Logic for pausing/resuming.
-prototype.pauseConsumer = function(consumer) {
-  this._pausedConsumers[consumer.name()] = 1;
-};
-
-prototype.consumersReady = function() {
-  for (var i in this._pausedConsumers) { return false;}
-  return true;
-};
-
-prototype.bufferEmpty = function() {
-  return (this._buffer.length === 0);
-};
-
-prototype.bufferFull = function() {
-  return (this._buffer.length);
-};
-
-prototype.continueConsumer = function(consumer) {
-  delete this._pausedConsumers[consumer.name()];
-  if (this.consumersReady()) {
-    this.clearBuffer();
-  }
-};
-
-prototype.clearBuffer = function() {
-  var data = this._buffer[0];
-
-  this._buffer = [];
-  if (data) {this.produce(data);}
-
-  if (this._seenEOS) {
-    this.produceEOS();
-  }
-};
-// End logic for pausing/resuming.
-
 prototype.producers = function() {
   return this._producers;
 };
@@ -107,7 +59,8 @@ prototype.wire = function(elements) {
   if (!_.isArray(elements)) {
     elements = [elements];
   }
-  this._consumers = elements.slice();
+  this._consumers = this._consumers || [];
+  this._consumers = this._consumers.concat(elements.slice());
   elements.forEach(function(e) {
     e.producers().push(this);
   }, this);

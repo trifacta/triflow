@@ -5,16 +5,24 @@ var vows = require('vows'),
 
 var suite = vows.describe('buffer');
 
+// assert.deepEqual(simpleElement.buffer(), []);
+// assert.equal(simpleElement.bufferFull(), 0);
+//
+// simpleElement.clearBuffer();
+
 suite.addBatch({
   'Test bufferElement no pause': {
     topic: function() {
       var consumer = defaultConsumer(['0123', '4567', '89'], this.callback);
       var bufferElement = new triflow.element.Buffer(
-          'buffer', [], {bufferSize: 3});
+          {bufferSize: 3}, []);
       bufferElement.wire([consumer]);
 
       var fileSource = new triflow.element.FileSource(
-          'filesource', getExample('digits.txt'), {bufferSize: 4});
+          {
+            bufferSize: 4,
+            filepath: getExample('digits.txt')
+          });
       fileSource.wire([bufferElement]);
       fileSource.go();
 
@@ -31,13 +39,16 @@ suite.addBatch({
       var consumer = defaultConsumer(['0123', '4567', '89'], this.callback);
 
       var bufferElement = new triflow.element.Buffer(
-          'buffer2', [], {bufferSize: 10});
+          {bufferSize: 10}, []);
       bufferElement.wire([consumer]);
       bufferElement.pauseConsumer(consumer);
-      assert.deepEqual(bufferElement.pausedConsumers(), {'consumer': 1});
+      assert.deepEqual(bufferElement.pausedConsumers(), {'elementId': 1});
 
       var fileSource = new triflow.element.FileSource(
-          'filesource', getExample('digits.txt'), {bufferSize: 4});
+          {
+            bufferSize: 4,
+            filepath: getExample('digits.txt')
+          });
       fileSource.wire([bufferElement]);
       fileSource.go();
       bufferElement.continueConsumer(consumer);
@@ -53,7 +64,7 @@ suite.addBatch({
     'over/underflow': function() {
       var consumer = defaultConsumer(['0123', '4567', '89'], this.callback);
       var bufferElement = new triflow.element.Buffer(
-          'buffer3', [], {bufferSize: 2});
+          {bufferSize: 2}, []);
       bufferElement.wire([consumer]);
       // underflow buffer
       assert.throws(function() {bufferElement.readFromBuffer();});

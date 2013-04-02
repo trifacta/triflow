@@ -1,12 +1,12 @@
 var Element = require('./Element'),
     extend = require('../core/extend');
 
-var StringSource = module.exports = function(name, str, attr) {
+var StringSource = function(attr) {
   attr = attr || {
     bufferSize: 1
   };
-  this.__super__(name, attr);
-  this._str = str;
+  this.__super__(attr);
+  this._str = attr.str;
   this._bufferSize = attr.bufferSize;
   this._index = 0;
 };
@@ -25,5 +25,4 @@ prototype.go = function() {
   consumer.consumeEOS(this);
 };
 
-extend(StringSource, Element);
-
+module.exports = extend(StringSource, Element);

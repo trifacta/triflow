@@ -15,7 +15,10 @@ suite.addBatch({
         consumeEOS: function() { check(); }
       };
       var fileSource = new triflow.element.FileSource(
-          'filesource', getExample('digits.txt'), {bufferSize: 4});
+          {
+            bufferSize: 4,
+            filepath: getExample('digits.txt')
+          });
 
       fileSource.wire([consumer]);
       fileSource.go();
@@ -26,29 +29,37 @@ suite.addBatch({
     'Test stringSource': function() {
 
       var consumer = defaultConsumer(['abc', 'def']);
-      var source = new triflow.element.StringSource(
-          'source', 'abcdef', {bufferSize: 3});
+      var source = new triflow.element.StringSource({
+        bufferSize: 3,
+        str: 'abcdef'
+      });
       source.wire([consumer]);
       source.go();
       assert(consumer.eosHandled());
 
       consumer = defaultConsumer(['abcd', 'ef']);
-      source = new triflow.element.StringSource(
-          'source', 'abcdef', {bufferSize: 4});
+      source = new triflow.element.StringSource({
+        str: 'abcdef',
+        bufferSize: 4
+      });
       source.wire([consumer]);
       source.go();
       assert(consumer.eosHandled());
 
       consumer = defaultConsumer(['abcdef']);
-      source = new triflow.element.StringSource(
-          'source', 'abcdef', {bufferSize: 6});
+      source = new triflow.element.StringSource({
+        str: 'abcdef',
+        bufferSize: 6
+      });
       source.wire([consumer]);
       source.go();
       assert(consumer.eosHandled());
 
       consumer = defaultConsumer(['abcdef']);
-      source = new triflow.element.StringSource(
-          'source', 'abcdef', {bufferSize: 7});
+      source = new triflow.element.StringSource({
+        str: 'abcdef',
+        bufferSize: 7
+      });
       source.wire([consumer]);
       source.go();
       assert(consumer.eosHandled());

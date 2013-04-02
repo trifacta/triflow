@@ -1,8 +1,8 @@
 var Element = require('./Element'),
     extend = require('../core/extend');
 
-var TupleElement = module.exports = function(name, attr, outputs) {
-  this.__super__(name, attr);
+var TupleElement = function(attr, outputs) {
+  this.__super__(attr);
   this._outputs = outputs;
 };
 
@@ -61,7 +61,6 @@ prototype.project = function(data) {
 prototype.produce = function(data) {
   var consumers = this._consumers, i;
   var output;
-
   if (this._outputs && this._outputs.length) {
     output = this.project(data);
   } else {
@@ -73,5 +72,5 @@ prototype.produce = function(data) {
   }
 };
 
-extend(TupleElement, Element);
+module.exports = extend(TupleElement, Element);
 

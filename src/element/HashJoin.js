@@ -1,36 +1,57 @@
 var _ = require('underscore'),
     TupleElement = require('./TupleElement'),
-    extend = require('../core/extend');
+    MultiKeyDictionary = require('../core/index').MultiKeyDictionary,
+    extend = require('../core/index').extend;
 
-var HashJoin = module.exports = function(name, attr, outputs) {
+var HashJoin = function(attr, outputs) {
   attr = attr || {};
   _.defaults(attr, {
-    buildJoinColumn: null,
-    probeJoinColumn: null
+    buildJoinColumns: [],
+    probeJoinColumns: []
   });
-  this.__super__(name, attr, outputs);
+  this.__super__(attr, outputs);
   this._buildIndex = 0;
   this._probeIndex = 1;
-  this._joinBuffer = {};
+  this._buildId = attr.buildId;
+  this._probeId = attr.probeId;
+  this._joinBuffer = new MultiKeyDictionary();
   this._buildEOS = false;
   this._probeEOS = false;
   this._probeBuffer = null;
-  this._buildJoinColumn = attr.buildJoinColumn;
-  this._probeJoinColumn = attr.probeJoinColumn;
+  this._buildJoinColumns = attr.buildJoinColumns;
+  this._probeJoinColumns = attr.probeJoinColumns;
 };
 
 var prototype = HashJoin.prototype;
 
+var getBuildProducer = function() {
+  if (this._buildId !== undefined) {
+    return _.find(this._producers, function(el) {
+      return el._elementId === this._buildId;
+    }, this);
+  }
+  return this._producers[this._buildIndex];
+};
+
+var getProbeProducer = function() {
+  if (this._probeId !== undefined) {
+    return _.find(this._producers, function(el) {
+      return el._elementId === this._probeId;
+    }, this);
+  }
+  return this._producers[this._probeIndex];
+};
+
 prototype.consumeEOS = function(source) {
-  if (source === this._producers[this._buildIndex]) {
+  if (source === getBuildProducer.call(this)) {
     this._buildEOS = true;
     if (this._probeBuffer) {
-      this.consume(this._probeBuffer, this._producers[this._probeIndex]);
+      this.consume(this._probeBuffer, getProbeProducer.call(this));
       this._probeBuffer = null;
-      this._producers[this._probeIndex].continueConsumer(this);
+      getProbeProducer.call(this).continueConsumer(this);
     }
   }
-  if (source === this._producers[this._probeIndex]) {
+  if (source === getProbeProducer.call(this)) {
     this._probeEOS = true;
   }
 
@@ -42,25 +63,25 @@ prototype.consumeEOS = function(source) {
 prototype.consume = function(data, source) {
   var producers = this._producers,
       joinBuffer = this._joinBuffer,
-      joinVal;
-  if (source === producers[this._buildIndex]) {
+      joinKeys;
+  if (source === getBuildProducer.call(this)) {
     if (this._buildEOS) {
       throw new Error('Input after buildEOF');
     }
-    joinVal = data[this._buildJoinColumn];
-    if (!joinBuffer[joinVal]) {
-      joinBuffer[joinVal] = [data];
-    } else {
-      joinBuffer[joinVal].push(data);
-    }
+    joinKeys = _.map(this._buildJoinColumns, function(col) {
+      return data[col];
+    });
+    joinBuffer.append(joinKeys, data);
   }
-  else if (source === producers[this._probeIndex]) {
+  else if (source === getProbeProducer.call(this)) {
     if (this._probeEOS) {
       throw new Error('Input after probeEOF');
     }
     if (this._buildEOS) {
-      joinVal = data[this._probeJoinColumn];
-      var cached = joinBuffer[joinVal];
+      joinKeys = _.map(this._probeJoinColumns, function(col) {
+        return data[col];
+      });
+      var cached = joinBuffer.get(joinKeys);
       if (cached) {
         for (var i = 0; i < cached.length; ++i) {
           this.produce(cached[i].concat(data));
@@ -73,5 +94,5 @@ prototype.consume = function(data, source) {
   }
 };
 
-extend(HashJoin, TupleElement);
+module.exports = extend(HashJoin, TupleElement);
 

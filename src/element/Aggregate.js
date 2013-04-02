@@ -4,13 +4,13 @@ var _ = require('underscore'),
 
 // TODO: Multiple aggregates should reuse computation.
 // For instance, average could reuse sum or count.
-var Aggregate = module.exports = function(name, attr) {
+var Aggregate = function(attr) {
   attr = attr || {};
   _.defaults(attr, {
     groups: [],
     aggs: []
   });
-  this.__super__(name, attr, []);
+  this.__super__(attr, []);
   this._groups = attr.groups;
   this._aggs = attr.aggs;
   this._groupLookup = this._groups.length ? {} : null;
@@ -84,3 +84,5 @@ prototype.consume = function(data, source) {
 };
 
 extend(Aggregate, TupleElement);
+
+module.exports = Aggregate;

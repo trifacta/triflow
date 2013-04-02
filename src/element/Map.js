@@ -1,9 +1,9 @@
 var TupleElement = require('./TupleElement'),
     extend = require('../core/extend');
 
-var MapElement = module.exports = function(name, attr, outputs) {
-  this.__super__(name, attr, outputs);
+var MapElement = function(attr, outputs) {
+  this.__super__(attr, outputs);
 };
 
-extend(MapElement, TupleElement);
+module.exports = extend(MapElement, TupleElement);
 

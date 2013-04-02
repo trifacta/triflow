@@ -2,12 +2,12 @@ var _ = require('underscore'),
     TupleElement = require('./TupleElement'),
     extend = require('../core/extend');
 
-var Filter = module.exports = function(name, attr, outputs) {
+var Filter = function(attr, outputs) {
   attr = attr || {};
   _.defaults(attr, {
     rows: null
   });
-  this.__super__(name, attr, outputs);
+  this.__super__(attr, outputs);
   this._predicate = attr.rows;
 };
 
@@ -19,5 +19,4 @@ prototype.consume = function(data, source) {
   }
 };
 
-extend(Filter, TupleElement);
-
+module.exports = extend(Filter, TupleElement);

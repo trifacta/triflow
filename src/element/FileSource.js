@@ -1,12 +1,12 @@
 var Element = require('./Element'),
     extend = require('../core/extend');
 
-var FileSource = module.exports = function(name, filepath, attr) {
+var FileSource = function(attr) {
   attr = attr || {
     bufferSize: 1000
   };
-  this.__super__(name, attr);
-  this._filepath = filepath;
+  this.__super__(attr);
+  this._filepath = attr.filepath;
   this._bufferSize = attr.bufferSize;
 };
 
@@ -44,3 +44,4 @@ prototype.go = function(ondone) {
 
 extend(FileSource, Element);
 
+module.exports = FileSource;
