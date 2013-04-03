@@ -42,5 +42,4 @@ install:
 	npm install
 
 clean:
-	rm -f triflow*.js
 	rm -rf coverage coverage.html
