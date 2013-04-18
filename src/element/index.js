@@ -23,3 +23,4 @@ element.HashJoin = require('./HashJoin');
 element.Map = require('./Map');
 element.StringSource = require('./StringSource');
 element.TupleElement = require('./TupleElement');
+element.Union = require('./Union');
