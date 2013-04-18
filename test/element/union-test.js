@@ -15,16 +15,12 @@ suite.addBatch({
         ['a', 1], ['b', 2], ['c', 2], ['d', 3], ['e', 3]
       ]);
 
-      var unionElement = new triflow.element.Union({
-        elements: [3, 4]
-      });
+      var unionElement = new triflow.element.Union();
       unionElement.wire([consumer]);
-      var firstElement = new triflow.element.Map(
-          {elementId: 3});
+      var firstElement = new triflow.element.Map();
       firstElement.wire([unionElement]);
 
-      var secondElement = new triflow.element.Map(
-          {elementId: 4});
+      var secondElement = new triflow.element.Map();
       secondElement.wire([unionElement]);
 
       firstElement.consume(['a', 1]);

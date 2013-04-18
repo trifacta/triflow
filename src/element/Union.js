@@ -4,16 +4,15 @@ var _ = require('underscore'),
 
 var Union = function(attr, outputs) {
   attr = attr || {};
-  this._elements = attr.elements;
-  this._eosIds = [];
+  this._eosProducers = [];
   this.__super__(attr, outputs);
 };
 
 var prototype = Union.prototype;
 
 prototype.consumeEOS = function(source) {
-  this._eosIds.push(source._elementId);
-  if (_.difference(this._elements, this._eosIds).length === 0) {
+  this._eosProducers.push(source);
+  if (_.difference(this._producers, this._eosProducers).length === 0) {
     this.produceEOS();
   }
 };
