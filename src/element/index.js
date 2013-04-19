@@ -9,6 +9,7 @@ var element = module.exports = {
   FILE_SOURCE: 'FileSource',
   FILTER: 'Filter',
   HASH_JOIN: 'HashJoin',
+  LIMIT: 'Limit',
   MAP: 'Map',
   STRING_SOURCE: 'StringSource',
   TUPLE_ELEMENT: 'TupleElement'
@@ -20,6 +21,7 @@ element.Element = require('./Element');
 element.FileSource = require('./FileSource');
 element.Filter = require('./Filter');
 element.HashJoin = require('./HashJoin');
+element.Limit = require('./Limit');
 element.Map = require('./Map');
 element.StringSource = require('./StringSource');
 element.TupleElement = require('./TupleElement');

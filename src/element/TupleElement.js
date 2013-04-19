@@ -59,14 +59,13 @@ prototype.project = function(data) {
 };
 
 prototype.produce = function(data) {
-  var consumers = this._consumers, i;
+  var consumers = this._activeConsumers, i;
   var output;
   if (this._outputs && this._outputs.length) {
     output = this.project(data);
   } else {
     output = data;
   }
-
   for (i = 0; i < consumers.length; ++i) {
     consumers[i].consume(output, this);
   }

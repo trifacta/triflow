@@ -14,7 +14,7 @@ var prototype = FileSource.prototype;
 
 prototype.go = function(ondone) {
   // Assume one consumer for now.
-  var consumer = this._consumers[0],
+  var element = this,
       bufferSize = this._bufferSize,
       buffer = new Buffer(bufferSize);
 
@@ -25,16 +25,19 @@ prototype.go = function(ondone) {
         if (bytesRead < bufferSize) {
           str = String(buf.slice(0, bytesRead));
           if (bytesRead > 0) {
-            consumer.consume(str, this);
+            element.produce([str]);
           }
-          consumer.consumeEOS(this);
+          element.produceEOS();
         }
         else {
           str = String(buf);
-          consumer.consume(str, this);
+          element.produce([str]);
           readFrom(position += bytesRead);
         }
       };
+      if (element._activeConsumers.length === 0) {
+        element.produceEOS();
+      }
       fs.read(fd, buffer, 0, bufferSize, position, callback);
     };
     readFrom(0);

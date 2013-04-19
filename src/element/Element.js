@@ -5,6 +5,7 @@ var Element = module.exports = function(attr) {
   this._attr = attr;
   this._producers = [];
   this._consumers = [];
+  this._activeConsumers = [];
   this._seenEOS = false;
   this._producedEOS = false;
   this._elementId = attr.elementId;
@@ -27,7 +28,7 @@ prototype.consumeEOS = function(source) {
 
 prototype.produceEOS = function() {
   if (!this._producedEOS) {
-    var consumers = this._consumers, i;
+    var consumers = this._activeConsumers, i;
     for (i = 0; i < consumers.length; ++i) {
       consumers[i].consumeEOS(this);
     }
@@ -35,8 +36,17 @@ prototype.produceEOS = function() {
   }
 };
 
+prototype.activeConsumers = function() {
+  return this._activeConsumers;
+};
+
+prototype.stopConsumer = function(consumer) {
+  this._activeConsumers.splice(this._activeConsumers.indexOf(consumer), 1);
+  consumer.consumeEOS(this);
+};
+
 prototype.produce = function(data) {
-  var consumers = this._consumers, i;
+  var consumers = this._activeConsumers, i;
 
   for (i = 0; i < consumers.length; ++i) {
     consumers[i].consume(data, this);
@@ -60,7 +70,8 @@ prototype.wire = function(elements) {
     elements = [elements];
   }
   this._consumers = this._consumers || [];
-  this._consumers = this._consumers.concat(elements.slice());
+  this._consumers = this._consumers.concat(elements);
+  this._activeConsumers = this._activeConsumers.concat(elements);
   elements.forEach(function(e) {
     e.producers().push(this);
   }, this);

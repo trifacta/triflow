@@ -13,7 +13,8 @@ var suite = vows.describe('buffer');
 suite.addBatch({
   'Test bufferElement no pause': {
     topic: function() {
-      var consumer = defaultConsumer(['0123', '4567', '89'], this.callback);
+      var consumer = defaultConsumer([['0123'], ['4567'], ['89']],
+          this.callback);
       var bufferElement = new triflow.element.Buffer(
           {bufferSize: 3}, []);
       bufferElement.wire([consumer]);
@@ -36,7 +37,8 @@ suite.addBatch({
 }).addBatch({
   'Test bufferElement with initial pause': {
     topic: function() {
-      var consumer = defaultConsumer(['0123', '4567', '89'], this.callback);
+      var consumer = defaultConsumer([['0123'], ['4567'], ['89']],
+          this.callback);
 
       var bufferElement = new triflow.element.Buffer(
           {bufferSize: 10}, []);
@@ -62,7 +64,8 @@ suite.addBatch({
 }).addBatch({
   'Test bufferElement over/underflow checks': {
     'over/underflow': function() {
-      var consumer = defaultConsumer(['0123', '4567', '89'], this.callback);
+      var consumer = defaultConsumer([['0123'], ['4567'], ['89']],
+          this.callback);
       var bufferElement = new triflow.element.Buffer(
           {bufferSize: 2}, []);
       bufferElement.wire([consumer]);

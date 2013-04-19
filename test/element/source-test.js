@@ -23,12 +23,12 @@ suite.addBatch({
       fileSource.wire([consumer]);
       fileSource.go();
       function check() {
-        assert.deepEqual(data, ['0123', '4567', '89']);
+        assert.deepEqual(data, [['0123'], ['4567'], ['89']]);
       }
     },
     'Test stringSource': function() {
 
-      var consumer = defaultConsumer(['abc', 'def']);
+      var consumer = defaultConsumer([['abc'], ['def']]);
       var source = new triflow.element.StringSource({
         bufferSize: 3,
         str: 'abcdef'
@@ -37,7 +37,7 @@ suite.addBatch({
       source.go();
       assert(consumer.eosHandled());
 
-      consumer = defaultConsumer(['abcd', 'ef']);
+      consumer = defaultConsumer([['abcd'], ['ef']]);
       source = new triflow.element.StringSource({
         str: 'abcdef',
         bufferSize: 4
@@ -46,7 +46,7 @@ suite.addBatch({
       source.go();
       assert(consumer.eosHandled());
 
-      consumer = defaultConsumer(['abcdef']);
+      consumer = defaultConsumer([['abcdef']]);
       source = new triflow.element.StringSource({
         str: 'abcdef',
         bufferSize: 6
@@ -55,7 +55,7 @@ suite.addBatch({
       source.go();
       assert(consumer.eosHandled());
 
-      consumer = defaultConsumer(['abcdef']);
+      consumer = defaultConsumer([['abcdef']]);
       source = new triflow.element.StringSource({
         str: 'abcdef',
         bufferSize: 7
