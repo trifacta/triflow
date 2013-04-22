@@ -15,7 +15,7 @@ suite.addBatch({
     topic: function() {
       var consumer = defaultConsumer([['0123'], ['45']], this.callback);
       var limitElement = new triflow.element.Limit(
-          {maxBytes: 6 * 16}, []);
+          {maxBytes: 6}, []);
       limitElement.wire([consumer]);
 
       var fileSource = new triflow.element.FileSource(

@@ -1,7 +1,6 @@
 var _ = require('underscore'),
     TupleElement = require('./TupleElement'),
-    extend = require('../core/extend'),
-    CHAR_SIZE = 16;
+    extend = require('../core/extend');
 
 var Limit = function(attr, outputs) {
   attr = attr || {};
@@ -30,13 +29,12 @@ prototype.consume = function(data, source) {
     assert(data.length === 1);
     assert(typeof data[0] === 'string');
     var str = data[0];
-    this._numBytes += str.length * CHAR_SIZE;
+    this._numBytes += str.length;
     if (this._numBytes > this._maxBytes) {
       // Output whatever is less than numBytes.
       // console.log(this._numBytes, this._maxBytes)
       var remainingBytes = Math.floor((
-          this._maxBytes - (this._numBytes - str.length * CHAR_SIZE)) /
-          CHAR_SIZE);
+          this._maxBytes - (this._numBytes - str.length)));
       this.produce([str.substring(0, remainingBytes)]);
       stop = true;
     }
