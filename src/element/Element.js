@@ -36,6 +36,7 @@ prototype.produceEOS = function() {
       consumers[i].consumeEOS(this);
     }
     this._producedEOS = true;
+    this.emit('done');
   }
 };
 
