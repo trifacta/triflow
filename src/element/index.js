@@ -18,6 +18,7 @@ var element = module.exports = {
 element.Aggregate = require('./Aggregate');
 element.Buffer = require('./Buffer');
 element.Element = require('./Element');
+element.FileConsumer = require('./FileConsumer');
 element.FileSource = require('./FileSource');
 element.Filter = require('./Filter');
 element.HashJoin = require('./HashJoin');

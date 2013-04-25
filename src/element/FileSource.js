@@ -1,10 +1,11 @@
-var Element = require('./Element'),
+var _ = require('underscore'),
+    Element = require('./Element'),
     extend = require('../core/extend');
 
 var FileSource = function(attr) {
-  attr = attr || {
+  attr = _.defaults(attr || {}, {
     bufferSize: 1000
-  };
+  });
   this.__super__(attr);
   this._filepath = attr.filepath;
   this._bufferSize = attr.bufferSize;
