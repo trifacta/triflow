@@ -23,7 +23,7 @@ suite.addBatch({
       var topicCallback = this.callback;
       fileConsumer.on('done', function() {
         topicCallback(null, tmpFile);
-      })
+      });
     },
     'test results': function(tmpFile) {
       var result = String(fs.readFileSync(tmpFile.path));
