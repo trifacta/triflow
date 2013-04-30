@@ -1,6 +1,7 @@
 var _ = require('underscore'),
     Element = require('./Element'),
-    extend = require('../core/extend');
+    extend = require('../core/extend'),
+    fs = require('fs');
 
 var FileSource = function(attr) {
   attr = _.defaults(attr || {}, {
