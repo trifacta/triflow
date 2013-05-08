@@ -20,6 +20,7 @@ all: \
 triflow.core.js: \
 	$(SOURCES)
 
+.PHONY: test
 test: Makefile
 	@$(JS_TESTER)
 

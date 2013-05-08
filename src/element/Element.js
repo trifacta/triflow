@@ -2,7 +2,7 @@ var _ = require('underscore'),
     mixin = require('../core/index').mixin,
     events = require('events');
 
-var Element = module.exports = function(attr) {
+var element = module.exports = function(attr) {
   events.EventEmitter.call(this);
   attr = attr || {};
   this._attr = attr;
@@ -14,7 +14,7 @@ var Element = module.exports = function(attr) {
   this._elementId = attr.elementId;
 };
 
-var prototype = Element.prototype;
+var prototype = element.prototype;
 
 prototype.elementId = function() {
   return this._elementId;
@@ -83,5 +83,5 @@ prototype.wire = function(elements) {
 
 prototype.addConsumer = prototype.wire;
 
-mixin(Element, events.EventEmitter);
+mixin(element, events.EventEmitter);
 

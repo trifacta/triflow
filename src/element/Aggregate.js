@@ -27,7 +27,7 @@ prototype.consumeEOS = function(source) {
   function nextLevel(group, levels) {
     if (_.isArray(group)) {
       var aggs = [];
-      for (i = group.length - 1; i >= 0; --i) {
+      for (var i = group.length - 1; i >= 0; --i) {
         aggs.push(group[i].close());
       }
       element.produce(levels.concat(aggs));

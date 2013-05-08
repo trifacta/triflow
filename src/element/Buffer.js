@@ -5,7 +5,7 @@ var BufferElement = module.exports = function(attr, outputs) {
   attr = attr || {};
   this._pausedConsumers = {};
   this._bufferSize = attr.bufferSize || 1000;
-  this._buffer = Array(this._bufferSize);
+  this._buffer = new Array(this._bufferSize);
   this._writeIndex = 0;
   this._readIndex = 0;
   this._recentRead = true;
@@ -111,7 +111,7 @@ prototype.readFromBuffer = function() {
   if (this.bufferEmpty()) {
     throw new Error('Buffer is empty.');
   }
-  data = this._buffer[readIndex];
+  var data = this._buffer[readIndex];
 
   if (readIndex === this._bufferSize - 1) {
     this._readIndex = 0;

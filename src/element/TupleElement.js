@@ -1,4 +1,4 @@
-var Element = require('./Element'),
+var element = require('./element'),
     extend = require('../core/extend');
 
 var TupleElement = function(attr, outputs) {
@@ -32,7 +32,7 @@ prototype.callFunction = function(func, data, accum) {
     // TODO: Need better method to distinguish
     // arrays that should be unpacked.
     if (typeof result === 'object' && result !== null) {
-      for (r = 0; r < outputArity; r++) {
+      for (var r = 0; r < outputArity; r++) {
         accum.push(result[r]);
       }
     } else {
@@ -71,5 +71,5 @@ prototype.produce = function(data) {
   }
 };
 
-module.exports = extend(TupleElement, Element);
+module.exports = extend(TupleElement, element);
 

@@ -1,4 +1,4 @@
-var Element = require('./Element'),
+var element = require('./element'),
     extend = require('../core/extend');
 
 var StringSource = function(attr) {
@@ -23,4 +23,4 @@ prototype.go = function() {
   this.produceEOS(this);
 };
 
-module.exports = extend(StringSource, Element);
+module.exports = extend(StringSource, element);

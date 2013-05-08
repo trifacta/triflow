@@ -38,7 +38,8 @@ prototype.set = function(keys, value) {
     return;
   }
   var leaf = dictionaryLeaf.call(this, keys.slice(0, keys.length - 1), true);
-  return leaf[keys[keys.length - 1]] = value;
+  leaf[keys[keys.length - 1]] = value;
+  return value;
 };
 
 // Shorthand for pushing onto an array.

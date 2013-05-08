@@ -1,4 +1,4 @@
-var Element = require('./Element'),
+var element = require('./element'),
     extend = require('../core/extend'),
     fs = require('fs');
 
@@ -30,7 +30,7 @@ prototype.consume = function(tuple) {
   });
 };
 
-module.exports = extend(FileConsumer, Element);
+module.exports = extend(FileConsumer, element);
 
 
 

@@ -29,13 +29,13 @@
     "forin"         : false,     // Don't tolerate `for in` loops without `hasOwnPrototype`.
     "immed"         : true,     // Require immediate invocations to be wrapped in parens e.g. `( function(){}() );`
     "latedef"       : true,     // Prohibit variable use before definition.
-    "newcap"        : false,     // Require capitalization of all constructor functions e.g. `new F()`.
+    "newcap"        : true,     // Require capitalization of all constructor functions e.g. `new F()`.
     "noarg"         : true,     // Prohibit use of `arguments.caller` and `arguments.callee`.
     "noempty"       : true,     // Prohibit use of empty blocks.
     "nonew"         : false,    // Prohibit use of constructors for side-effects.
     "plusplus"      : false,    // Prohibit use of `++` & `--`.
     "regexp"        : false,     // Prohibit `.` and `[^...]` in regular expressions.
-    "undef"         : false,     // Require all non-global variables be declared before they are used.
+    "undef"         : true,     // Require all non-global variables be declared before they are used.
     "strict"        : false,    // Require `use strict` pragma in every file.
     "trailing"      : true,     // Prohibit trailing whitespaces.
     
@@ -107,6 +107,9 @@
         //"exampleVar",
         //"anotherCoolGlobal",
         //"iLoveDouglas"
+        "it",
+        "describe",
+        "jsdata"
     ]//,
     //"indent"        : 4         // Specify indentation spacing
 }

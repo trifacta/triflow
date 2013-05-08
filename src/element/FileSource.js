@@ -1,5 +1,5 @@
 var _ = require('underscore'),
-    Element = require('./Element'),
+    element = require('./element'),
     extend = require('../core/extend'),
     fs = require('fs');
 
@@ -16,7 +16,7 @@ var prototype = FileSource.prototype;
 
 prototype.go = function(ondone) {
   // Assume one consumer for now.
-  var element = this,
+  var myElement = this,
       bufferSize = this._bufferSize,
       buffer = new Buffer(bufferSize);
 
@@ -27,18 +27,18 @@ prototype.go = function(ondone) {
         if (bytesRead < bufferSize) {
           str = String(buf.slice(0, bytesRead));
           if (bytesRead > 0) {
-            element.produce([str]);
+            myElement.produce([str]);
           }
-          element.produceEOS();
+          myElement.produceEOS();
         }
         else {
           str = String(buf);
-          element.produce([str]);
+          myElement.produce([str]);
           readFrom(position += bytesRead);
         }
       };
-      if (element._activeConsumers.length === 0) {
-        element.produceEOS();
+      if (myElement._activeConsumers.length === 0) {
+        myElement.produceEOS();
       }
       fs.read(fd, buffer, 0, bufferSize, position, callback);
     };
@@ -47,6 +47,6 @@ prototype.go = function(ondone) {
   fs.open(this._filepath, 'r', onRead);
 };
 
-extend(FileSource, Element);
+extend(FileSource, element);
 
 module.exports = FileSource;

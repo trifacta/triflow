@@ -26,8 +26,14 @@ prototype.consume = function(data, source) {
   }
   // For maxBytes, assume all data is one-attribute string tuple.
   if (this._maxBytes) {
-    assert(data.length === 1);
-    assert(typeof data[0] === 'string');
+    if (data.length !== 1) {
+      throw new Error('Data Length Should be 1');
+    }
+
+    if (typeof data[0] !== 'string') {
+      throw new Error('Data type should be a string');
+    }
+
     var str = data[0];
     this._numBytes += str.length;
     if (this._numBytes > this._maxBytes) {
