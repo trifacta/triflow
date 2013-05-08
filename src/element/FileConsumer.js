@@ -1,4 +1,4 @@
-var element = require('./element'),
+var element = require('./Element'),
     extend = require('../core/extend'),
     fs = require('fs');
 

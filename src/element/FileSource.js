@@ -1,5 +1,5 @@
 var _ = require('underscore'),
-    element = require('./element'),
+    element = require('./Element'),
     extend = require('../core/extend'),
     fs = require('fs');
 
