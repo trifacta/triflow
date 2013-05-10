@@ -28,9 +28,8 @@ suite.addBatch({
     },
     'Test single group': function() {
       var consumer = defaultConsumer([['a'], ['b']]);
-      var group = function(data) { return data[0]; };
       var aggElement = new triflow.element.Aggregate(
-          {groups: [group], aggs: []});
+          {groups: [0], aggs: []});
       aggElement.wire([consumer]);
       aggElement.consume(['a']);
       aggElement.consume(['b']);
@@ -40,7 +39,6 @@ suite.addBatch({
     },
     'Test count with single group': function() {
       var consumer = defaultConsumer([['a', 1], ['b', 2]]);
-      var group = function(data) { return data[0]; };
       var agg = function() {
         var count = 0;
         return {
@@ -50,7 +48,7 @@ suite.addBatch({
         };
       };
       var aggElement = new triflow.element.Aggregate(
-          {groups: [group], aggs: [agg]});
+          {groups: [0], aggs: [agg]});
       aggElement.wire([consumer]);
       aggElement.consume(['a']);
       aggElement.consume(['b']);
@@ -62,8 +60,6 @@ suite.addBatch({
       var consumer = defaultConsumer([
         ['a', 'x', 1, 1], ['a', 'y', 2, 4], ['b', 'x', 3, 6]
       ]);
-      var group = function(data) { return data[0]; };
-      var group2 = function(data) { return data[1]; };
       var agg = function() {
         var count = 0;
         return {
@@ -81,7 +77,7 @@ suite.addBatch({
         };
       };
       var aggElement = new triflow.element.Aggregate(
-          {groups: [group, group2], aggs: [agg, agg2]});
+          {groups: [0, 1], aggs: [agg, agg2]});
       aggElement.wire([consumer]);
       aggElement.consume(['a', 'x', 1]);
       aggElement.consume(['a', 'y', 1]);

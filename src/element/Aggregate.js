@@ -60,7 +60,7 @@ prototype.consume = function(data, source) {
     this._groupLookup = groupLookup = initializeAggs(this._aggs);
   }
   for (i = 0; i < groups.length; ++i) {
-    key = groups[i](data);
+    key = data[groups[i]];//groups[i](data);
     groupAggs = groupLookup[key];
     // If key doesnt exist, add it to hash.
     if (groupAggs === undefined) {
@@ -82,6 +82,26 @@ prototype.consume = function(data, source) {
     groupLookup[i].next(data);
   }
 };
+
+// prototype.consume = function(data, source) {
+//   // Compute group key.
+//   var i, groups = this._groups,
+//       groupLookup = this._groupLookup, key, groupAggs;
+//   var aggs = this._aggs, lastGroup = groups.length - 1;
+//   if (groupLookup === null) {
+//     this._groupLookup = groupLookup = initializeAggs(this._aggs);
+//   }
+//   for (i = 0; i < groups.length; ++i) {
+//     key = data[groups[i]];
+//   }
+//   groupsAggs = groupLookup[key];
+//   if (groupAggs === undefined) {
+//     groupAggs = groupLookup[key] = initializeAggs(this._aggs);
+//   }
+//   for (i = aggs.length - 1; i >= 0; i--) {
+//     groupAggs[i].next(data);
+//   }
+// };
 
 extend(Aggregate, TupleElement);
 
