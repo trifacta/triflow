@@ -25,6 +25,12 @@ prototype.attr = function(key) {
   return this._attr[key];
 };
 
+prototype.init = function(done) {
+  if (done) {
+    done(null);
+  }
+};
+
 prototype.consumeEOS = function(source) {
   this._seenEOS = true;
   this.produceEOS();
