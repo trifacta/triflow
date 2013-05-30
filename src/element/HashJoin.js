@@ -48,7 +48,7 @@ prototype.consumeEOS = function(source) {
     if (this._probeBuffer) {
       this.consume(this._probeBuffer, getProbeProducer.call(this));
       this._probeBuffer = null;
-      getProbeProducer.call(this).continueConsumer(this);
+      getProbeProducer.call(this).unbufferConsumer(this);
     }
   }
   if (source === getProbeProducer.call(this)) {
@@ -89,7 +89,7 @@ prototype.consume = function(data, source) {
       }
     } else {
       this._probeBuffer = data;
-      source.pauseConsumer(this);
+      source.bufferConsumer(this);
     }
   }
 };

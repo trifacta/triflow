@@ -8,6 +8,7 @@ var element = module.exports = function(attr) {
   this._attr = attr;
   this._producers = [];
   this._consumers = [];
+  this._pausedConsumers = {};
   this._activeConsumers = [];
   this._seenEOS = false;
   this._producedEOS = false;
@@ -38,6 +39,37 @@ prototype.produceEOS = function() {
     this._producedEOS = true;
     this.emit('done');
   }
+};
+
+function markConsumerAsPaused(consumer) {
+  var hasPausedConsumers = this.hasPausedConsumer();
+  this._pausedConsumers[consumer.elementId()] = 1;
+  if (!hasPausedConsumers) {
+    this.pause();
+  }
+}
+
+function markConsumerAsResumed(consumer) {
+  delete this._pausedConsumers[consumer.elementId()];
+  if (!this.hasPausedConsumer()) {
+    this.resume();
+  }
+}
+
+prototype.hasPausedConsumer = function() {
+  return !_.isEmpty(this._pausedConsumers);
+};
+
+prototype.resume = function() {
+  _.each(this._producers, function(producer) {
+    markConsumerAsResumed.call(producer, this);
+  }, this);
+};
+
+prototype.pause = function() {
+  _.each(this._producers, function(producer) {
+    markConsumerAsPaused.call(producer, this);
+  }, this);
 };
 
 prototype.activeConsumers = function() {

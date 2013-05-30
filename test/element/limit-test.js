@@ -11,7 +11,7 @@ var suite = vows.describe('buffer');
 // simpleElement.clearBuffer();
 
 suite.addBatch({
-  'Test limitElement no pause': {
+  'Test limitElement': {
     topic: function() {
       var consumer = defaultConsumer([['0123'], ['45']], this.callback);
       var limitElement = new triflow.element.Limit(

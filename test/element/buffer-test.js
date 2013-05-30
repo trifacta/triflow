@@ -11,7 +11,7 @@ var suite = vows.describe('buffer');
 // simpleElement.clearBuffer();
 
 suite.addBatch({
-  'Test bufferElement no pause': {
+  'Test bufferElement no buffer': {
     topic: function() {
       var consumer = defaultConsumer([['0123'], ['4567'], ['89']],
           this.callback);
@@ -35,7 +35,7 @@ suite.addBatch({
     }
   }
 }).addBatch({
-  'Test bufferElement with initial pause': {
+  'Test bufferElement with initial buffer': {
     topic: function() {
       var consumer = defaultConsumer([['0123'], ['4567'], ['89']],
           this.callback);
@@ -43,8 +43,8 @@ suite.addBatch({
       var bufferElement = new triflow.element.Buffer(
           {bufferSize: 10}, []);
       bufferElement.wire([consumer]);
-      bufferElement.pauseConsumer(consumer);
-      assert.deepEqual(bufferElement.pausedConsumers(), {'elementId': 1});
+      bufferElement.bufferConsumer(consumer);
+      assert.deepEqual(bufferElement.bufferedConsumers(), {'elementId': 1});
 
       var fileSource = new triflow.element.FileSource(
           {
@@ -53,7 +53,7 @@ suite.addBatch({
           });
       fileSource.wire([bufferElement]);
       fileSource.go();
-      bufferElement.continueConsumer(consumer);
+      bufferElement.unbufferConsumer(consumer);
     },
     'end-of-stream': {
       'eosHandled': function(consumer) {
@@ -71,7 +71,7 @@ suite.addBatch({
       bufferElement.wire([consumer]);
       // underflow buffer
       assert.throws(function() {bufferElement.readFromBuffer();});
-      bufferElement.pauseConsumer(consumer);
+      bufferElement.bufferConsumer(consumer);
       // fill buffer
       bufferElement.consume('0123');
       bufferElement.consume('4567');
