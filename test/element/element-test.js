@@ -6,7 +6,7 @@ var vows = require('vows'),
 var suite = vows.describe('type');
 
 suite.addBatch({
-  'code coverage for element': {
+  'base element test': {
     'Test accessors': function() {
       var consumer = defaultConsumer([['a', 'b']]);
       var simpleElement = new triflow.element.Element(
@@ -17,6 +17,32 @@ suite.addBatch({
       assert.equal(simpleElement.attr('c2'), 1);
       simpleElement.consume(['a', 'b']);
       simpleElement.consumeEOS();
+    },
+    'Test pause/continue': function() {
+      var element = new triflow.element.Element({
+        elementId: 0
+      });
+      var consumer = new triflow.element.Element({
+        elementId: 1
+      });
+      var consumer2 = new triflow.element.Element({
+        elementId: 2
+      });
+      element.wire(consumer);
+      element.wire(consumer2);
+      assert(!element.hasPausedConsumer());
+      consumer.pause();
+      assert(element.hasPausedConsumer());
+      consumer.resume();
+      assert(!element.hasPausedConsumer());
+
+      consumer.pause();
+      consumer2.pause();
+      assert(element.hasPausedConsumer());
+      consumer.resume();
+      assert(element.hasPausedConsumer());
+      consumer2.resume();
+      assert(!element.hasPausedConsumer());
     }
   }
 });

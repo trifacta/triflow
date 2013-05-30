@@ -3,7 +3,7 @@ var TupleElement = require('./TupleElement'),
 
 var BufferElement = module.exports = function(attr, outputs) {
   attr = attr || {};
-  this._pausedConsumers = {};
+  this._bufferedConsumers = {};
   this._bufferSize = attr.bufferSize || 1000;
   this._buffer = new Array(this._bufferSize);
   this._writeIndex = 0;
@@ -15,20 +15,20 @@ var BufferElement = module.exports = function(attr, outputs) {
 var prototype = BufferElement.prototype;
 
 // Logic for pausing/resuming.
-prototype.pausedConsumers = function() {
-  return this._pausedConsumers;
+prototype.bufferedConsumers = function() {
+  return this._bufferedConsumers;
 };
 
 prototype.buffer = function() {
   return this._buffer;
 };
 
-prototype.pauseConsumer = function(consumer) {
-  this._pausedConsumers[consumer.elementId()] = 1;
+prototype.bufferConsumer = function(consumer) {
+  this._bufferedConsumers[consumer.elementId()] = 1;
 };
 
 prototype.consumersReady = function() {
-  for (var i in this._pausedConsumers) { return false;}
+  for (var i in this._bufferedConsumers) { return false;}
   return true;
 };
 
@@ -40,24 +40,12 @@ prototype.bufferFull = function() {
   return (this._buffer.length);
 };
 
-prototype.continueConsumer = function(consumer) {
-  delete this._pausedConsumers[consumer.elementId()];
+prototype.unbufferConsumer = function(consumer) {
+  delete this._bufferedConsumers[consumer.elementId()];
   if (this.consumersReady()) {
     this.clearBuffer();
   }
 };
-
-prototype.clearBuffer = function() {
-  var data = this._buffer[0];
-
-  this._buffer = [];
-  if (data) {this.produce(data);}
-
-  if (this._seenEOS) {
-    this.produceEOS();
-  }
-};
-// End logic for pausing/resuming.
 
 prototype.consumeEOS = function(source) {
   this._seenEOS = true;
