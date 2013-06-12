@@ -44,3 +44,31 @@ install:
 
 clean:
 	rm -rf coverage coverage.html
+
+build:
+	mkdir -p dist/
+	./node_modules/gluejs/bin/gluejs \
+		--include ./index.js \
+		--include ./src \
+		--include ./node_modules/microee \
+		--command 'uglifyjs --no-copyright --no-dead-code --mangle-toplevel' \
+		--replace underscore=window._ \
+		--replace fs={} \
+		--global triflow \
+		--main index.js \
+		--out dist/triflow.js
+
+build-debug:
+	mkdir -p dist/
+	./node_modules/gluejs/bin/gluejs \
+		--include ./index.js \
+		--include ./src \
+		--include ./node_modules/microee \
+		--source-url \
+		--replace underscore=window._ \
+		--replace fs={} \
+		--global triflow \
+		--main index.js \
+		--out dist/triflow.js
+
+.PHONY: test build build-debug

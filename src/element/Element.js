@@ -1,9 +1,8 @@
 var _ = require('underscore'),
     mixin = require('../core/index').mixin,
-    events = require('events');
+    microee = require('microee');
 
 var element = module.exports = function(attr) {
-  events.EventEmitter.call(this);
   attr = attr || {};
   this._attr = attr;
   this._producers = [];
@@ -14,6 +13,8 @@ var element = module.exports = function(attr) {
   this._producedEOS = false;
   this._elementId = attr.elementId;
 };
+
+microee.mixin(element);
 
 var prototype = element.prototype;
 
@@ -121,5 +122,4 @@ prototype.wire = function(elements) {
 
 prototype.addConsumer = prototype.wire;
 
-mixin(element, events.EventEmitter);
 

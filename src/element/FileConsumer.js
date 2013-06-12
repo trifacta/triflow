@@ -31,6 +31,3 @@ prototype.consume = function(tuple) {
 };
 
 module.exports = extend(FileConsumer, element);
-
-
-
