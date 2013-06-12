@@ -46,6 +46,7 @@ clean:
 	rm -rf coverage coverage.html
 
 build:
+	mkdir -p dist/
 	./node_modules/gluejs/bin/gluejs \
 		--include ./index.js \
 		--include ./src \
@@ -58,6 +59,7 @@ build:
 		--out dist/triflow.js
 
 build-debug:
+	mkdir -p dist/
 	./node_modules/gluejs/bin/gluejs \
 		--include ./index.js \
 		--include ./src \
