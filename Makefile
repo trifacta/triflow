@@ -46,12 +46,13 @@ clean:
 	rm -rf coverage coverage.html
 
 build:
+	npm install
 	mkdir -p dist/
 	./node_modules/gluejs/bin/gluejs \
 		--include ./index.js \
 		--include ./src \
 		--include ./node_modules/microee \
-		--command 'uglifyjs --no-copyright --no-dead-code --mangle-toplevel' \
+		--command '${JS_COMPILER} --no-copyright --no-dead-code --mangle-toplevel' \
 		--replace underscore=window._ \
 		--replace fs={} \
 		--global triflow \
