@@ -25,7 +25,6 @@ suite.addBatch({
         this.name = function() {
           return 'pet';
         };
-        this.animal = new triflow.extend(pet);
         this.loud = function() {return false;};
       };
 
@@ -40,11 +39,6 @@ suite.addBatch({
         this.bark = function() {};
         this.loud = function() {return true;};
       };
-
-      dog = triflow.extend(new newDog());
-
-      assert.equal(new dog().name(), 'dog');
-      assert.isUndefined(new dog().feed);
 
       dog = triflow.extend(new newDog(), pet);
       assert.equal(new dog().name(), 'dog');

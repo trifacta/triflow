@@ -67,6 +67,11 @@ prototype.hasPausedConsumer = function() {
   return !_.isEmpty(this._pausedConsumers);
 };
 
+// Encapsulates error throwing in case this behavior changes.
+prototype.emitError = function(err) {
+  this.emit('done', err);
+};
+
 prototype.resume = function() {
   _.each(this._producers, function(producer) {
     markConsumerAsResumed.call(producer, this);
