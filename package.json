@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "triflow",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Trifacta JavaScript Data Utilities.",
   "keywords": [
     "data",
