@@ -1,6 +1,6 @@
 var _ = require('underscore');
 
-var element = module.exports = {
+var element = {
   DATAFLOW_PAUSE: -1,
   DATAFLOW_CONTINUE: 1,
   DATAFLOW_EOF: 0,
@@ -31,3 +31,5 @@ element.Map = require('./Map');
 element.StringSource = require('./StringSource');
 element.TupleElement = require('./TupleElement');
 element.Union = require('./Union');
+
+module.exports = element;
