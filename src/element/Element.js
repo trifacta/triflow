@@ -1,6 +1,7 @@
 var _ = require('underscore'),
     mixin = require('../core/index').mixin,
-    microee = require('microee');
+    microee = require('microee'),
+    elementConstants = require('./constants');
 
 var element = module.exports = function(attr) {
   attr = attr || {};
@@ -20,6 +21,10 @@ var prototype = element.prototype;
 
 prototype.elementId = function() {
   return this._elementId;
+};
+
+prototype.outputType = function() {
+  return elementConstants.outputType.TUPLE;
 };
 
 prototype.attr = function(key) {

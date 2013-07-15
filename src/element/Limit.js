@@ -1,6 +1,7 @@
 var _ = require('underscore'),
     TupleElement = require('./TupleElement'),
-    extend = require('../core/extend');
+    extend = require('../core/extend'),
+    elementConstants = require('./constants');
 
 var Limit = function(attr, outputs) {
   attr = attr || {};
@@ -16,6 +17,10 @@ var Limit = function(attr, outputs) {
 };
 
 var prototype = Limit.prototype;
+
+prototype.outputType = function() {
+  return this._producers[0].outputType();
+};
 
 prototype.consume = function(data, source) {
   var stop = false;

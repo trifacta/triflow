@@ -1,7 +1,8 @@
 var _ = require('underscore'),
     element = require('./Element'),
     extend = require('../core/extend'),
-    fs = require('fs');
+    fs = require('fs'),
+    elementConstants = require('./constants');
 
 var FileSource = function(attr) {
   attr = _.defaults(attr || {}, {
@@ -13,6 +14,10 @@ var FileSource = function(attr) {
 };
 
 var prototype = FileSource.prototype;
+
+prototype.outputType = function() {
+  return elementConstants.outputType.BYTES;
+};
 
 prototype.go = function(ondone) {
   // Assume one consumer for now.

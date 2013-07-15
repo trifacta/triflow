@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 var element = module.exports = {
   DATAFLOW_PAUSE: -1,
   DATAFLOW_CONTINUE: 1,
@@ -14,6 +16,8 @@ var element = module.exports = {
   STRING_SOURCE: 'StringSource',
   TUPLE_ELEMENT: 'TupleElement'
 };
+
+element = _.extend(element, require('./constants'));
 
 element.Aggregate = require('./Aggregate');
 element.Buffer = require('./Buffer');
