@@ -31,7 +31,9 @@ prototype.callFunction = function(func, data, accum) {
   if (accum) {
     // TODO: Need better method to distinguish
     // arrays that should be unpacked.
-    if (typeof result === 'object' && result !== null) {
+    if (typeof result === 'object'
+        && result !== null
+        && !(result instanceof Date)) {
       for (var r = 0; r < outputArity; r++) {
         accum.push(result[r]);
       }
