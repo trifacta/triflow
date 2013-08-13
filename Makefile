@@ -38,15 +38,16 @@ coverage: $(SOURCES)
 	@rm -r -f $(COVERAGE_PATH)
 	jscoverage src coverage
 
-install:
+node_modules: package.json
 	mkdir -p node_modules
 	npm install
+
+install: node_modules
 
 clean:
 	rm -rf coverage coverage.html
 
-build:
-	npm install
+build: install
 	mkdir -p dist/
 	./node_modules/gluejs/bin/gluejs \
 		--include ./index.js \
