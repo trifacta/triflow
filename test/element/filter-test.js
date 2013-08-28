@@ -13,7 +13,7 @@ suite.addBatch({
       filter.inputColumns = [0];
 
       var filterElement = new triflow.element.Filter(
-          {rows: filter}, [0]);
+          {row: filter}, [0]);
       filterElement.wire([consumer]);
       filterElement.consume(['a']);
       filterElement.consume(['b']);
@@ -27,7 +27,7 @@ suite.addBatch({
       filter.inputColumns = [0, 1];
 
       var filterElement = new triflow.element.Filter(
-          {rows: filter}, [0, 2]);
+          {row: filter}, [0, 2]);
       filterElement.wire([consumer]);
       filterElement.consume(['a', 'c', 1]);
       filterElement.consume(['b', 'd', 2]);
@@ -43,7 +43,7 @@ suite.addBatch({
       filter.inputColumns = undefined;
 
       var filterElement = new triflow.element.Filter(
-          {rows: filter}, [0]);
+          {row: filter}, [0]);
       filterElement.wire([consumer]);
       filterElement.consume(['a']);
       filterElement.consume(['b']);

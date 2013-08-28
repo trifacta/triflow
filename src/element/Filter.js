@@ -5,10 +5,10 @@ var _ = require('underscore'),
 var Filter = function(attr, outputs) {
   attr = attr || {};
   _.defaults(attr, {
-    rows: null
+    row: null
   });
   this.__super__(attr, outputs);
-  this._predicate = attr.rows;
+  this._predicate = attr.row;
 };
 
 var prototype = Filter.prototype;
