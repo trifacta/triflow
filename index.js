@@ -10,9 +10,7 @@ globals.forEach(function(global) {
 events = require('microee');
 _ = require('underscore');
 
-module.exports = triflow = (typeof process != 'undefined' &&
-  process.env && process.env.NODE_COVERAGE ?
-  require("./coverage") : require("./src"));
+module.exports = triflow = require("./src");
 
 globals.forEach(function(global) {
   if (global in globalValues) self[global] = globalValues[global];
