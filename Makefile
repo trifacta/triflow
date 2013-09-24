@@ -73,4 +73,6 @@ build-debug:
 		--main index.js \
 		--out dist/triflow.js
 
-.PHONY: test build build-debug
+# node_modules really shouldn't be a phony target, but we're making it one so
+# that gluejs installs properly.
+.PHONY: test build build-debug install node_modules
