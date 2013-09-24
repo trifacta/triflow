@@ -60,7 +60,7 @@ build: install
 		--main index.js \
 		--out dist/triflow.js
 
-build-debug:
+build-debug: install
 	mkdir -p dist/
 	./node_modules/gluejs/bin/gluejs \
 		--include ./index.js \
